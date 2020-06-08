@@ -1,6 +1,8 @@
 package servelet;
 
 import java.io.IOException;
+import java.sql.Connection;
+import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
@@ -11,7 +13,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import beans.Client;
 import beans.User;
+import dao.ClientService;
+import utils.SingletonConnexion;
 
 /**
  * Servlet implementation class Clients
@@ -58,6 +63,16 @@ public class Clients extends HttpServlet {
 			dispatcher.forward(request, response);
 		}
 		else {
+			Connection connection = (Connection) session.getAttribute("connection");
+			if(connection == null) {
+				connection = SingletonConnexion.startConnection();
+			}
+			ClientService clientService = new ClientService(connection);
+			
+			List<Client> clients = clientService.findAll();
+			
+			session.setAttribute("clients", clients);
+			
 			RequestDispatcher dispatcher = context.getRequestDispatcher("/clients.jsp");
 			dispatcher.forward(request, response);
 		}

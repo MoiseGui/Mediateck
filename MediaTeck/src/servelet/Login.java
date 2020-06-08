@@ -87,6 +87,7 @@ public class Login extends HttpServlet {
 				}
 				else {
 					HttpSession session = request.getSession(true);
+					session.setAttribute("connection", connection);
 					if(user.getCategorie() == 3) {
 						session.setAttribute("user", user);
 						ServletContext context = getServletContext();
