@@ -83,17 +83,17 @@
 					<button class="navbar-toggler" type="button" data-toggle="collapse"
 						aria-controls="navigation-index" aria-expanded="false"
 						aria-label="Toggle navigation">
-						<span class="sr-only">Toggle navigation</span> <span
-							class="navbar-toggler-icon icon-bar"></span> <span
-							class="navbar-toggler-icon icon-bar"></span> <span
-							class="navbar-toggler-icon icon-bar"></span>
+						<span class="sr-only">Toggle navigation</span>
+						<span class="navbar-toggler-icon icon-bar"></span>
+						<span class="navbar-toggler-icon icon-bar"></span>
+						<span class="navbar-toggler-icon icon-bar"></span>
 					</button>
 					<div class="collapse navbar-collapse justify-content-end">
 						<form class="navbar-form">
 							<div class="input-group no-border">
 								<input type="text" value="" class="form-control"
-									placeholder="Search...">
-								<button type="submit"
+									placeholder="Search..." id="tableSearch">
+								<button type="button"
 									class="btn btn-white btn-round btn-just-icon">
 									<i class="material-icons">search</i>
 									<div class="ripple-container"></div>
@@ -173,7 +173,7 @@
 												<th data-field="actions" data-formatter="operateFormatter"
 													data-events="operateEvents" class="text-center">Actions</th>
 											</thead>
-											<tbody>
+											<tbody id="myTable">
 
 												<%
 													for (Client client : clients) {
@@ -292,6 +292,17 @@
 
 		})
 	</script>
+	
+	<script>
+  $(document).ready(function(){
+  $("#tableSearch").on("keyup", function() {
+    var value = $(this).val().toLowerCase();
+    $("#myTable tr").filter(function() {
+      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    });
+  });
+});
+</script>
 
 </body>
 
