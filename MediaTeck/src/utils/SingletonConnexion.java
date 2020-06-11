@@ -13,10 +13,13 @@ public final class SingletonConnexion {
 		String uname = "moise";
 		String pass = "Lometogo1";
 		Class.forName("oracle.jdbc.driver.OracleDriver");
-		if(SingletonConnexion.connection == null || SingletonConnexion.connection.isClosed()) {
-			SingletonConnexion.connection  = DriverManager.getConnection(url, uname, pass);
-		}
+//		if(SingletonConnexion.connection == null || SingletonConnexion.connection.isClosed()) {
+//			SingletonConnexion.connection  = DriverManager.getConnection(url, uname, pass);
+//		}
 		SingletonConnexion.connection  = DriverManager.getConnection(url, uname, pass);
+		
+		connection.setAutoCommit(true);
+		
 		return connection;
 
 	} catch (Exception e) {

@@ -106,4 +106,53 @@ public class UserService {
 			return -3;
 		}
 	}
+	
+	public int edit(long id, String nom, String prenom, String username, String pass) {
+		try {
+			if (conn != null) {
+				
+				String query;
+				
+				if(pass == null || pass.isEmpty()) {
+					query = "update utilisateurs set nom = ?, prenom = ?, username = ? where id = ?";
+				}
+				else {
+					query = "update utilisateurs set nom = ?, prenom = ?, username = ?, pass = ? where id = ?";
+				}
+				
+				PreparedStatement ps = conn.prepareStatement(query);
+				ps.setString(1, nom);
+				ps.setString(2, prenom);
+				ps.setString(3, username);
+				
+				if(pass == null || pass.isEmpty()) {
+					ps.setLong(4, id);
+				}
+				else {
+					ps.setString(4, pass);
+					ps.setLong(5, id);
+				}
+				
+				int count = ps.executeUpdate();
+				if (count == 1) {
+					ps.close();
+					return 1;
+				} else if(count == 0) {
+					ps.close();
+					return 0;
+				}
+				else {
+					ps.close();
+					return -2;
+				}
+
+			} else {
+				System.out.println("Connection nulle dans edit User");
+				return -3;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return -4;
+		}
+	}
 }
