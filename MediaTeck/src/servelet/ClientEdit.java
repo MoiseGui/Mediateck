@@ -2,7 +2,6 @@ package servelet;
 
 import java.io.IOException;
 import java.sql.Connection;
-import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
@@ -19,16 +18,16 @@ import dao.ClientService;
 import utils.SingletonConnexion;
 
 /**
- * Servlet implementation class Clients
+ * Servlet implementation class ClientEdit
  */
-@WebServlet("/Clients")
-public class Clients extends HttpServlet {
+@WebServlet("/ClientEdit")
+public class ClientEdit extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
-	public Clients() {
+	public ClientEdit() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
@@ -41,6 +40,7 @@ public class Clients extends HttpServlet {
 			throws ServletException, IOException {
 		ServletContext context = getServletContext();
 		HttpSession session = request.getSession(false);
+
 		User user;
 		boolean error = false;
 
@@ -61,35 +61,34 @@ public class Clients extends HttpServlet {
 			RequestDispatcher dispatcher = context.getRequestDispatcher("/");
 			dispatcher.forward(request, response);
 		} else {
-			
+
 			Connection connection = (Connection) session.getAttribute("connection");
 			if (connection == null) {
 				connection = SingletonConnexion.startConnection();
 			}
+			
 			ClientService clientService = new ClientService(connection);
 
-				// vérifier si il y'a un cli en cours de delete
-				
-				if (request.getParameter("cli") != null) {
+			// vérifier si il y'a un cli en cours d'edit
+
+			if (request.getParameter("edit") != null) {
+
+				long id = Long.valueOf(request.getParameter("edit"));
+
+				Client client = clientService.findById(id);
+
+				if (client != null) {
+					request.setAttribute("client", client);
+					RequestDispatcher dispatcher = context.getRequestDispatcher("/clientEdit.jsp");
+					dispatcher.forward(request, response);
+				} else {
 					
-					long id = Long.valueOf(request.getParameter("cli"));
-					
-					int i = clientService.deleteById(id);
-					
-					request.setAttribute("error", true);
-					request.setAttribute("errorNo", i);
-					
+					RequestDispatcher dispatcher = context.getRequestDispatcher("/Clients");
+					dispatcher.forward(request, response);
 				}
-				
-				// Charger les clients pour la page
-				
-				List<Client> clients = clientService.findAll();
-				
-				session.setAttribute("clients", clients);
-				
-				RequestDispatcher dispatcher = context.getRequestDispatcher("/clients.jsp");
-				dispatcher.forward(request, response);
-				
+
+			}
+
 		}
 	}
 
@@ -99,8 +98,38 @@ public class Clients extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
+		ServletContext context = getServletContext();
+		if(request.getParameter("sauvegarder") == null) {
+			RequestDispatcher dispatcher = context.getRequestDispatcher("/Clients");
+			dispatcher.forward(request, response);
+		}
+		else {
+			long id = Long.valueOf(request.getParameter("id"));
+			String nom = request.getParameter("nom");
+			String prenom = request.getParameter("prenom");
+			
+			if(nom.isEmpty() || prenom.isEmpty() || id <= 0) {
+				RequestDispatcher dispatcher = context.getRequestDispatcher("/Clients");
+				dispatcher.forward(request, response);
+			}
+			else {
+				HttpSession session = request.getSession(false);
+				Connection connection = (Connection) session.getAttribute("connection");
+				if (connection == null) {
+					connection = SingletonConnexion.startConnection();
+				}
+				
+				ClientService clientService = new ClientService(connection);
+				
+				int result = clientService.update(id, nom, prenom);
+				
+				request.setAttribute("editError", true);
+				request.setAttribute("editNo", result);
+				RequestDispatcher dispatcher = context.getRequestDispatcher("/Clients");
+				dispatcher.forward(request, response);
+				
+			}
+		}
 	}
 
 }

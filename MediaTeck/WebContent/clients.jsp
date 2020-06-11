@@ -83,10 +83,10 @@
 					<button class="navbar-toggler" type="button" data-toggle="collapse"
 						aria-controls="navigation-index" aria-expanded="false"
 						aria-label="Toggle navigation">
-						<span class="sr-only">Toggle navigation</span>
-						<span class="navbar-toggler-icon icon-bar"></span>
-						<span class="navbar-toggler-icon icon-bar"></span>
-						<span class="navbar-toggler-icon icon-bar"></span>
+						<span class="sr-only">Toggle navigation</span> <span
+							class="navbar-toggler-icon icon-bar"></span> <span
+							class="navbar-toggler-icon icon-bar"></span> <span
+							class="navbar-toggler-icon icon-bar"></span>
 					</button>
 					<div class="collapse navbar-collapse justify-content-end">
 						<form class="navbar-form">
@@ -145,8 +145,13 @@
 							<div class="card">
 								<div class="card-header card-header-primary">
 									<h4 class="card-title ">Liste des clients</h4>
-									<p class="card-category">Cette liste peut être filtrée à
-										l'aide des outils présents ci-dessous.</p>
+									<p class="display-inline card-category">Cette liste peut
+										être filtrée à l'aide des outils présents ci-dessous.</p>
+									<div class="pull-right">
+										<a href="AddClient" class="text-white"><h4><i
+											class="fa fa-plus-circle"></i> Nouveau client
+										</h4></a>
+									</div>
 								</div>
 								<div class="card-body">
 
@@ -165,7 +170,7 @@
 											} else {
 											%>
 											<thead>
-												<th data-field="id" data-sortable="true" class="text-center">ID</th>
+												<th data-field="id" data-sortable="true" class="text-center">Numéro</th>
 												<th data-field="nom" data-sortable="true"
 													class="text-center">Nom</th>
 												<th data-field="prenom" data-sortable="true"
@@ -184,16 +189,41 @@
 													<td><%=client.getPrenom()%></td>
 													<td></td>
 												</tr>
-
+												<!-- The Modal -->
+												<div class="modal" id="myModal<%=client.getId()%>">
+													<div class="modal-dialog">
+														<div class="modal-content">
+															<div class="modal-header">
+																<h4 class="modal-title">Confirmer la suppression</h4>
+																<button type="button" class="close" data-dismiss="modal">&times;</button>
+															</div>
+															<div class="modal-body">
+																Voulez vous vraiment supprimer le client
+																<%=client.getPrenom()%>
+																<%=client.getNom()%>
+																?
+															</div>
+															<div class="modal-footer">
+																<!-- 																<a class="text-white" -->
+																<%-- 																	href="Clients?cli=<%=client.getId()%>"> --%>
+																<button type="button" class="btn btn-success"
+																	data-dismiss="modal"
+																	onClick="javascript:location.href = 'Clients?cli=<%=client.getId()%>';">Oui</button>
+																<!-- 																</a> -->
+																<button type="button" class="btn btn-danger"
+																	data-dismiss="modal">Annuler</button>
+															</div>
+														</div>
+													</div>
+												</div>
 												<%
 													}
 												}
 												%>
-												
+
 											</tbody>
 										</table>
 									</div>
-
 								</div>
 							</div>
 						</div>
@@ -222,6 +252,7 @@
 		</div>
 	</div>
 
+
 	<!-- Javascript -->
 	<script src="https://code.jquery.com/jquery-3.3.1.min.js"
 		integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
@@ -237,6 +268,12 @@
 	<script
 		src="https://unpkg.com/bootstrap-table@1.16.0/dist/bootstrap-table.min.js"></script>
 
+
+	<script src="assets/js/plugins/perfect-scrollbar.jquery.min.js"></script>
+
+	<!--  Notifications Plugin    -->
+	<script src="assets/js/plugins/bootstrap-notify.js"></script>
+
 	<!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
 	<script src="assets/js/material-dashboard.js?v=2.1.2"
 		type="text/javascript"></script>
@@ -245,25 +282,25 @@
 		var $table = $('#fresh-table')
 
 		window.operateEvents = {
-			'click .edit' : function(e, value, row, index) {
-				alert('You click edit icon, row: ' + JSON.stringify(row))
-				console.log(value, row, index)
-			},
-			'click .remove' : function(e, value, row, index) {
-				$table.bootstrapTable('remove', {
-					field : 'id',
-					values : [ row.id ]
-				})
-			}
+		// 			'click .edit' : function(e, value, row, index) {
+		// 				alert('You click edit icon, row id: ' + row['id'])
+		// 				console.log(value, row, index)
+		// 			},
+		// 			'click .remove' : function(e, value, row, index) {
+		// 				$table.bootstrapTable('remove', {
+		// 					field : 'id',
+		// 					values : [ row.id ]
+		// 				})
+		// 			}
 		}
 
 		function operateFormatter(value, row, index) {
 			return [
-					'</a>',
-					'<a rel="tooltip" title="Edit" class="table-action edit" href="javascript:void(0)" title="Edit">',
+					'<a rel="tooltip" title="Edit" class="table-action edit" href="ClientEdit?edit='
+							+ row['id'] + '" title="Edit">',
 					'<i class="fa fa-edit"></i>',
 					'</a>',
-					'<a rel="tooltip" title="Remove" class="table-action remove" href="javascript:void(0)" title="Remove">',
+					'<a rel="tooltip" title="Remove" class="table-action remove" href="#" title="Remove" data-toggle="modal" data-target="#myModal'+ row['id'] + '">',
 					'<i class="fa fa-remove"></i>', '</a>' ].join('')
 		}
 
@@ -292,17 +329,86 @@
 
 		})
 	</script>
-	
+
 	<script>
-  $(document).ready(function(){
-  $("#tableSearch").on("keyup", function() {
-    var value = $(this).val().toLowerCase();
-    $("#myTable tr").filter(function() {
-      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-    });
-  });
-});
-</script>
+		$(document)
+				.ready(
+						function() {
+							$("#tableSearch")
+									.on(
+											"keyup",
+											function() {
+												var value = $(this).val()
+														.toLowerCase();
+												$("#myTable tr")
+														.filter(
+																function() {
+																	$(this)
+																			.toggle(
+																					$(
+																							this)
+																							.text()
+																							.toLowerCase()
+																							.indexOf(
+																									value) > -1)
+																});
+											});
+						});
+	</script>
+
+
+	<%
+		if (request.getAttribute("error") != null && request.getAttribute("errorNo") != null) {
+		Integer code = (Integer) request.getAttribute("errorNo");
+		int errorCode = code.intValue();
+
+		if (errorCode < 0) {
+			System.out.print(errorCode);
+	%>
+	<!--type = ['', 'info', 'danger', 'success', 'warning', 'rose', 'primary']; -->
+	<script type="text/javascript">
+		md.showNotification('top', 'right', 2,
+				'Un problème est survenu lors de la supression du client.');
+	</script>
+	<%
+		} else if (errorCode > 0) {
+	%>
+	<!--type = ['', 'info', 'danger', 'success', 'warning', 'rose', 'primary']; -->
+	<script type="text/javascript">
+		// 	alert("i am here");
+		md.showNotification('top', 'right', 3, 'Client supprimé avec succès.');
+	</script>
+	<%
+		}
+	}
+	%>
+
+	<%
+		if (request.getAttribute("editError") != null && request.getAttribute("editNo") != null) {
+		Integer code = (Integer) request.getAttribute("editNo");
+		int errorCode = code.intValue();
+
+		if (errorCode < 0) {
+// 			System.out.print(errorCode);
+	%>
+	<!--type = ['', 'info', 'danger', 'success', 'warning', 'rose', 'primary']; -->
+	<script type="text/javascript">
+		md.showNotification('top', 'right', 2,
+						'Un problème est survenu lors de la sauvegarde des changements sur le client.');
+	</script>
+	<%
+		} else if (errorCode > 0) {
+	%>
+	<!--type = ['', 'info', 'danger', 'success', 'warning', 'rose', 'primary']; -->
+	<script type="text/javascript">
+		// 	alert("i am here");
+		md.showNotification('top', 'right', 3,
+				'Modifications enregistrées avec succès avec succès.');
+	</script>
+	<%
+		}
+	}
+	%>
 
 </body>
 

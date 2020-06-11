@@ -164,14 +164,15 @@ md = {
     }
   },
 
-  showNotification: function(from, align) {
+  showNotification: function(from, align, colorNum, notifMessage) {
     type = ['', 'info', 'danger', 'success', 'warning', 'rose', 'primary'];
 
-    color = Math.floor((Math.random() * 6) + 1);
+//    color = Math.floor((Math.random() * 6) + 1);
+    color = colorNum;
 
     $.notify({
       icon: "add_alert",
-      message: "Welcome to <b>Material Dashboard Pro</b> - a beautiful admin panel for every web developer."
+      message: notifMessage
 
     }, {
       type: type[color],
@@ -231,7 +232,7 @@ md = {
     });
 
     $('.datepicker').datetimepicker({
-      format: 'MM/DD/YYYY',
+      format: 'DD/MM/YYYY',
       icons: {
         time: "fa fa-clock-o",
         date: "fa fa-calendar",
