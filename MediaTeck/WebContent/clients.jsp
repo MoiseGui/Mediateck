@@ -1,7 +1,9 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <%@page import="beans.Client"%>
 <%@page import="java.util.List"%>
-<html lang="en">
+<html lang="fr">
 
 <head>
 <meta charset="utf-8" />
@@ -146,7 +148,7 @@
 								<div class="card-header card-header-primary">
 									<h4 class="card-title ">Liste des clients</h4>
 									<p class="display-inline card-category">Cette liste peut
-										être filtrée à l'aide des outils présents ci-dessous.</p>
+										Ãªtre filtrÃ©e Ã  l'aide des outils prÃ©sents ci-dessous.</p>
 									<div class="pull-right">
 										<a href="AddClient" class="text-white"><h4><i
 											class="fa fa-plus-circle"></i> Nouveau client
@@ -165,16 +167,16 @@
 											if (clients == null || clients.isEmpty()) {
 												out.print(
 												"<div class='alert alert-warning alert-dismissible fadeIn first'><button type='button' class='close' data-dismiss='alert'>&times;</button><strong>Erreur: </strong>");
-												out.print("Aucun client trouvé.");
+												out.print("Aucun client trouvÃ©.");
 												out.print("</div>");
 											} else {
 											%>
 											<thead>
-												<th data-field="id" data-sortable="true" class="text-center">Numéro</th>
+												<th data-field="id" data-sortable="true" class="text-center">NumÃ©ro</th>
 												<th data-field="nom" data-sortable="true"
 													class="text-center">Nom</th>
 												<th data-field="prenom" data-sortable="true"
-													class="text-center">Prénom</th>
+													class="text-center">PrÃ©nom</th>
 												<th data-field="actions" data-formatter="operateFormatter"
 													data-events="operateEvents" class="text-center">Actions</th>
 											</thead>
@@ -244,7 +246,7 @@
 							document.write(new Date().getFullYear())
 						</script>
 						, made with <i class="material-icons">favorite</i> by <a
-							href="https://www.moisegui.com" target="_blank">Moïse Gui</a> And
+							href="https://www.moisegui.com" target="_blank">MoÃ¯se Gui</a> And
 						<a href="#">Ezaghab Chaimaa</a> for a better web.
 					</div>
 				</div>
@@ -368,7 +370,7 @@
 	<!--type = ['', 'info', 'danger', 'success', 'warning', 'rose', 'primary']; -->
 	<script type="text/javascript">
 		md.showNotification('top', 'right', 2,
-				'Un problème est survenu lors de la supression du client.');
+				'Un problÃ¨me est survenu lors de la supression du client.');
 	</script>
 	<%
 		} else if (errorCode > 0) {
@@ -376,7 +378,7 @@
 	<!--type = ['', 'info', 'danger', 'success', 'warning', 'rose', 'primary']; -->
 	<script type="text/javascript">
 		// 	alert("i am here");
-		md.showNotification('top', 'right', 3, 'Client supprimé avec succès.');
+		md.showNotification('top', 'right', 3, 'Client supprimÃ© avec succÃ¨s.');
 	</script>
 	<%
 		}
@@ -394,7 +396,7 @@
 	<!--type = ['', 'info', 'danger', 'success', 'warning', 'rose', 'primary']; -->
 	<script type="text/javascript">
 		md.showNotification('top', 'right', 2,
-						'Un problème est survenu lors de la sauvegarde des changements sur le client.');
+						'Un problÃ¨me est survenu lors de la sauvegarde des changements sur le client.');
 	</script>
 	<%
 		} else if (errorCode > 0) {
@@ -403,7 +405,7 @@
 	<script type="text/javascript">
 		// 	alert("i am here");
 		md.showNotification('top', 'right', 3,
-				'Modifications enregistrées avec succès avec succès.');
+				'Modifications enregistrÃ©es avec succÃ¨s avec succÃ¨s.');
 	</script>
 	<%
 		}

@@ -102,7 +102,7 @@ public class User extends HttpServlet {
 					request.setAttribute("formMessage", "Veuillez saisir les informations obligatoires");
 					doGet(request, response);
 				} else {
-					System.out.println("The fiels are not empty. good");
+//					System.out.println("The fiels are not empty. good");
 					Connection connection = (Connection) session.getAttribute("connection");
 					if (connection == null) {
 						connection = SingletonConnexion.startConnection();
@@ -114,9 +114,10 @@ public class User extends HttpServlet {
 						System.out.println("password is not being changed");
 
 						if (!username.equals(user.getUsername())) {
-							beans.User check = userService.findByUsername(username);
-
-							if (check != null) {
+//							System.out.println("username changed "+username);
+							int check = userService.existByUsername(username);
+//							System.out.println("exist by username "+check);
+							if (check > 0) {
 								request.setAttribute("formError", true);
 								request.setAttribute("formMessage",
 										"Username déjà utilisé, veuillez essayer en un autre.");
@@ -125,18 +126,21 @@ public class User extends HttpServlet {
 							}
 						}
 
-						System.out.println("new username good");
+//						System.out.println("new username good");
 						int result = userService.edit(user.getId(), nom, prenom, username, null);
+//						System.out.println("résultat de la requete "+result);
 
 						request.setAttribute("userError", true);
 						request.setAttribute("userNo", result);
 
 						if (result == 1) {
+							System.out.println("username changed");
 							user = userService.findByUsername(username);
 							session.setAttribute("user", user);
 						}
 
 						if (user.getCategorie() == 3) {
+//							System.out.println("redirecting to dashborad");
 							context = getServletContext();
 							RequestDispatcher dispatcher = context.getRequestDispatcher("/Admin");
 							dispatcher.forward(request, response);
@@ -174,7 +178,9 @@ public class User extends HttpServlet {
 								doGet(request, response);
 							} else {
 
-								if (!pass.equals(user.getPass())) {
+								if (!oldPass.equals(user.getPass())) {
+//									System.out.println("user pass " + user.getPass());
+//									System.out.println("new pass " + pass);
 									request.setAttribute("formError", true);
 									request.setAttribute("formMessage",
 											"Ancien mot de passe incorrect, veuillez réessayer.");
@@ -182,41 +188,44 @@ public class User extends HttpServlet {
 								} else {
 
 									if (!username.equals(user.getUsername())) {
-										beans.User check = userService.findByUsername(username);
-
-										if (check != null) {
+//											System.out.println("username changed "+username);
+										int check = userService.existByUsername(username);
+//											System.out.println("exist by username "+check);
+										if (check > 0) {
 											request.setAttribute("formError", true);
 											request.setAttribute("formMessage",
 													"Username déjà utilisé, veuillez essayer en un autre.");
 											doGet(request, response);
-										} else {
-
-											int result = userService.edit(user.getId(), nom, prenom, username, pass);
-
-											request.setAttribute("userError", true);
-											request.setAttribute("userNo", result);
-
-											if (result == 1) {
-												user = userService.findByUsername(username);
-												session.setAttribute("user", user);
-											}
-
-											if (user.getCategorie() == 3) {
-												context = getServletContext();
-												RequestDispatcher dispatcher = context.getRequestDispatcher("/Admin");
-												dispatcher.forward(request, response);
-											} else if (user.getCategorie() == 2) {
-												context = getServletContext();
-												RequestDispatcher dispatcher = context.getRequestDispatcher("/SAV");
-												dispatcher.forward(request, response);
-											} else {
-												context = getServletContext();
-												RequestDispatcher dispatcher = context
-														.getRequestDispatcher("/Dashboard");
-												dispatcher.forward(request, response);
-											}
-
+											return;
 										}
+									}
+
+//										System.out.println("new username good");
+									int result = userService.edit(user.getId(), nom, prenom, username, pass);
+//										System.out.println("résultat de la requete "+result);
+
+									request.setAttribute("userError", true);
+									request.setAttribute("userNo", result);
+
+									if (result == 1) {
+										System.out.println("username changed");
+										user = userService.findByUsername(username);
+										session.setAttribute("user", user);
+									}
+
+									if (user.getCategorie() == 3) {
+//											System.out.println("redirecting to dashborad");
+										context = getServletContext();
+										RequestDispatcher dispatcher = context.getRequestDispatcher("/Admin");
+										dispatcher.forward(request, response);
+									} else if (user.getCategorie() == 2) {
+										context = getServletContext();
+										RequestDispatcher dispatcher = context.getRequestDispatcher("/SAV");
+										dispatcher.forward(request, response);
+									} else {
+										context = getServletContext();
+										RequestDispatcher dispatcher = context.getRequestDispatcher("/Dashboard");
+										dispatcher.forward(request, response);
 									}
 
 								}

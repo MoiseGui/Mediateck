@@ -107,6 +107,32 @@ public class UserService {
 		}
 	}
 	
+	public int existByUsername(String username) {
+		try {
+			if (conn != null) {
+				String query = "select count(*) from utilisateurs where username = ?";
+				PreparedStatement ps = conn.prepareStatement(query);
+				ps.setString(1, username);
+				ResultSet result = ps.executeQuery();
+				result.next();
+				int res = result.getInt(1);
+//				System.out.println("resultat de recherche pour "+ username + " " +res);
+				if (res == 1) {
+					ps.close();
+					return 1;
+				} else {
+					ps.close();
+					return -1;
+				}
+			} else {
+				return -2;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return -3;
+		}
+	}
+	
 	public int edit(long id, String nom, String prenom, String username, String pass) {
 		try {
 			if (conn != null) {
@@ -114,9 +140,11 @@ public class UserService {
 				String query;
 				
 				if(pass == null || pass.isEmpty()) {
+//					System.out.println("Cas du changement simple");
 					query = "update utilisateurs set nom = ?, prenom = ?, username = ? where id = ?";
 				}
 				else {
+//					System.out.println("Cas du changement de mot de passe");
 					query = "update utilisateurs set nom = ?, prenom = ?, username = ?, pass = ? where id = ?";
 				}
 				
@@ -132,8 +160,11 @@ public class UserService {
 					ps.setString(4, pass);
 					ps.setLong(5, id);
 				}
+//				System.out.println("J'exécute");
 				
 				int count = ps.executeUpdate();
+				
+//				System.out.println("J'ai exécuté "+count);
 				if (count == 1) {
 					ps.close();
 					return 1;

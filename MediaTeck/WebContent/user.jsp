@@ -1,7 +1,7 @@
 <%@page import="beans.User"%>
 <%@page import="beans.Client"%>
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 
 <!DOCTYPE html>
 <%@page import="beans.Client"%>
@@ -179,12 +179,12 @@
 											</div>
 											<div class="col-md-6">
 												<div class="form-group">
-													<label class="bmd-label-floating">Prénom</label> <input
+													<label class="bmd-label-floating">PrÃ©nom</label> <input
 														type="text" name="prenom" value="<%=user.getPrenom()%>"
 														class="form-control" required>
 													<div class="valid-feedback">Correct.</div>
 													<div class="invalid-feedback">Veillez saisir un
-														prénom.</div>
+														prÃ©nom.</div>
 												</div>
 											</div>
 										</div>
@@ -264,7 +264,7 @@
 									.write(new Date().getFullYear())
 						</script>
 						, made with <i class="material-icons">favorite</i> by <a
-							href="https://www.moisegui.com" target="_blank">Moïse Gui</a> And
+							href="https://www.moisegui.com" target="_blank">MoÃ¯se Gui</a> And
 						<a href="#">Ezaghab Chaimaa</a> for a better web.
 					</div>
 				</div>
