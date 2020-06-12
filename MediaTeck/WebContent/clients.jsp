@@ -405,7 +405,7 @@
 	<script type="text/javascript">
 		// 	alert("i am here");
 		md.showNotification('top', 'right', 3,
-				'Modifications enregistrées avec succès avec succès.');
+				'Modifications enregistrées avec succès.');
 	</script>
 	<%
 		}
