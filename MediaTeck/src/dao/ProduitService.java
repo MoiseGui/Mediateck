@@ -86,4 +86,92 @@ import beans.Produit;
 			}
 		}
 
+		public Produit findById(long id) {
+			try {
+				if (conn != null) {
+					String query = "select * from produit where Num_prod = ?";
+					PreparedStatement ps = conn.prepareStatement(query);
+					ps.setLong(1, id);
+					ResultSet result = ps.executeQuery();
+					if (result.next()) {
+						Produit produit = new Produit();
+						produit.setId(result.getLong(1));
+						produit.setDesignation(result.getString(2));
+						produit.setPrix(result.getDouble(3));
+						produit.setQte_stock(result.getLong(4));
+						
+						return produit;
+					}
+					ps.close();
+
+				} else {
+					System.out.println("Connection nulle dans findById produit");
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			return null;
+		}
+
+		public int update(long id, String designation, double prix, long qte_stock) {
+			try {
+				if (conn != null) {
+
+					String query = "update produit set designation = ?, prix = ?, qte_stock = ? where Num_prod = ?";
+					PreparedStatement ps = conn.prepareStatement(query);
+					ps.setString(1, designation);
+					ps.setDouble(2, prix);
+					ps.setLong(3, qte_stock);
+					ps.setLong(4, id);
+					int count = ps.executeUpdate();
+					if (count == 1) {
+						ps.close();
+						return 1;
+					} else if (count == 0) {
+						ps.close();
+						return 0;
+					} else {
+						ps.close();
+						return -2;
+					}
+
+				} else {
+					System.out.println("Connection nulle dans findAll produit");
+					return -3;
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+				return -4;
+			}
+		}
+
+		public int add(String designation, double prix, long qte_stock) {
+			try {
+				if (conn != null) {
+
+					String query = "insert into produit values(seq_prod.nextval, ?,?, ?, 0)";
+					PreparedStatement ps = conn.prepareStatement(query);
+					ps.setString(1, designation);
+					ps.setDouble(2, prix);
+					ps.setLong(3, qte_stock);
+					
+					int count = ps.executeUpdate();
+					if (count == 1) {
+						ps.close();
+						return 1;
+					} else {
+						ps.close();
+						return -2;
+					}
+
+				} else {
+					System.out.println("Connection nulle dans Add produit");
+					return -3;
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+				return -4;
+			}
+		}
+
 }

@@ -67,7 +67,7 @@ public class Produits extends HttpServlet {
 				}
 				ProduitService produitService = new ProduitService(connection);
 
-					// vérifier si il y'a un cli en cours de delete
+					// vérifier si il y'a un produit en cours de delete
 					
 					if (request.getParameter("prod") != null) {
 						
