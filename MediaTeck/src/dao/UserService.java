@@ -186,8 +186,188 @@ public class UserService {
 			return -4;
 		}
 	}
+
 	
+	public int adminEdit(long id, String nom, String prenom, int categorie, String username, String pass) {
+		try {
+			if (conn != null) {
+				
+				String query;
+				
+				if(pass == null || pass.isEmpty()) {
+//					System.out.println("Cas du changement simple");
+					query = "update utilisateurs set nom = ?, prenom = ?, username = ?, categorie = ? where id = ?";
+				}
+				else {
+//					System.out.println("Cas du changement de mot de passe");
+					query = "update utilisateurs set nom = ?, prenom = ?, username = ?, categorie = ?, pass = ? where id = ?";
+				}
+				
+				PreparedStatement ps = conn.prepareStatement(query);
+				ps.setString(1, nom);
+				ps.setString(2, prenom);
+				ps.setString(3, username);
+				ps.setInt(4, categorie);
+				
+				if(pass == null || pass.isEmpty()) {
+					ps.setLong(5, id);
+				}
+				else {
+					ps.setString(5, pass);
+					ps.setLong(6, id);
+				}
+//				System.out.println("J'exécute");
+				
+				int count = ps.executeUpdate();
+				
+//				System.out.println("J'ai exécuté "+count);
+				if (count == 1) {
+					ps.close();
+					return 1;
+				} else if(count == 0) {
+					ps.close();
+					return 0;
+				}
+				else {
+					ps.close();
+					return -2;
+				}
+
+			} else {
+				System.out.println("Connection nulle dans edit User");
+				return -3;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return -4;
+		}
+	}
+
+
+	public int deleteById(long id) {
+		try {
+			if (conn != null) {
+				String query = "delete from utilisateurs where id = ?";
+				PreparedStatement ps = conn.prepareStatement(query);
+				ps.setLong(1, id);
+				int count = ps.executeUpdate();
+				if (count == 1) {
+					ps.close();
+					return 1;
+				} else if(count == 0) {
+					ps.close();
+					return 0;
+				}
+				else {
+					ps.close();
+					return -3;
+				}
+
+			} else {
+				System.out.println("Connection nulle dans delete user");
+				return -3;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return -4;
+		}
+	}
+
+
 	
+	public int update(long id, String nom, String prenom, String username, int categorie) {
+		try {
+			if (conn != null) {
+
+				String query = "update utilisateurs set nom = ?, prenom = ?, username = ?, categorie = ? where id = ?";
+				PreparedStatement ps = conn.prepareStatement(query);
+				ps.setString(1, nom);
+				ps.setString(2, prenom);
+				ps.setString(3, username);
+				ps.setInt(4, categorie);
+				ps.setLong(5, id);
+				int count = ps.executeUpdate();
+				if (count == 1) {
+					ps.close();
+					return 1;
+				} else if (count == 0) {
+					ps.close();
+					return 0;
+				} else {
+					ps.close();
+					return -2;
+				}
+
+			} else {
+				System.out.println("Connection nulle dans findAll Client");
+				return -3;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return -4;
+		}
+	}
+
+	public int add(String nom, String prenom, int categorie, String username, String pass) {
+		try {
+			if (conn != null) {
+
+				String query = "insert into utilisateurs values(seq_utils.nextval, ?, ?, ?, ?, ?)";
+				PreparedStatement ps = conn.prepareStatement(query);
+				ps.setString(1, nom);
+				ps.setString(2, prenom);
+				ps.setInt(3, categorie);
+				ps.setString(4, username);
+				ps.setString(5, pass);
+				int count = ps.executeUpdate();
+				if (count == 1) {
+					ps.close();
+					return 1;
+				} else {
+					ps.close();
+					return -1;
+				}
+
+			} else {
+				System.out.println("Connection nulle dans Add User");
+				return -2;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return -3;
+		}
+	}
+
+
+
+	public User findById(long id) {
+		try {
+			if (conn != null) {
+				String query = "select * from utilisateurs where id = ?";
+				PreparedStatement ps = conn.prepareStatement(query);
+				ps.setLong(1, id);
+				ResultSet result = ps.executeQuery();
+				if (result.next()) {
+					User user = new User();
+					user.setId(result.getLong(1));
+					user.setNom(result.getString(2));
+					user.setPrenom(result.getString(3));
+					user.setCategorie(result.getInt(4));
+					user.setUsername(result.getString(5));
+					user.setPass(result.getString(6));
+					
+					return user;
+				}
+				ps.close();
+
+			} else {
+				System.out.println("Connection nulle dans findById user");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
 	
 	
 	

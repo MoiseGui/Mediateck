@@ -1,10 +1,9 @@
-<%@page import="beans.User"%>
 <%@page import="beans.Client"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 
 <!DOCTYPE html>
-<%@page import="beans.Client"%>
+<%@page import="beans.User"%>
 <%@page import="java.util.List"%>
 <html lang="fr">
 
@@ -13,7 +12,7 @@
 <link rel="apple-touch-icon" sizes="76x76" href="images/favicon.png">
 <link rel="icon" type="image/png" href="images/favicon.png">
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-<title>Mon compte - Mediateck</title>
+<title>Clients - Mediateck</title>
 <meta content='width=device-width, initial-scale=1.0, shrink-to-fit=no'
 	name='viewport' />
 
@@ -42,8 +41,8 @@
 							class="material-icons">dashboard</i>
 							<p>Accueil</p>
 					</a></li>
-					<li class="nav-item"><a class="nav-link" href="Clients"> <i
-							class="material-icons">contacts</i>
+					<li class="nav-item "><a class="nav-link" href="Clients">
+							<i class="material-icons">contacts</i>
 							<p>Clients</p>
 					</a></li>
 					<li class="nav-item"><a class="nav-link" href="Produits">
@@ -54,12 +53,12 @@
 							<i class="material-icons">content_paste</i>
 							<p>Commandes</p>
 					</a></li>
-					<li class="nav-item "><a class="nav-link" href="Users"> <i
+					<li class="nav-item active"><a class="nav-link" href="Users"> <i
 							class="material-icons">people</i>
 							<p>Utilisateurs</p>
 					</a></li>
-					<li class="nav-item active"><a class="nav-link" href="User">
-							<i class="material-icons">person</i>
+					<li class="nav-item "><a class="nav-link" href="User"> <i
+							class="material-icons">person</i>
 							<p>Mon compte</p>
 					</a></li>
 				</ul>
@@ -71,7 +70,7 @@
 				class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top ">
 				<div class="container-fluid">
 					<div class="navbar-wrapper">
-						<a class="navbar-brand" href="javascript:;">Mon compte</a>
+						<a class="navbar-brand" href="javascript:;">Nouveau utilisateur</a>
 					</div>
 					<button class="navbar-toggler" type="button" data-toggle="collapse"
 						aria-controls="navigation-index" aria-expanded="false"
@@ -134,25 +133,16 @@
 			<div class="content">
 				<div class="container-fluid">
 					<div class="row">
-						<%
-							if (session.getAttribute("user") == null) {
-						%>
-						<jsp:forward page="/"></jsp:forward>
-						<%
-							} else {
-
-							User user = (User) session.getAttribute("user");
-						%>
+						
 						<div class="col-md-8">
 							<div class="card">
 								<div class="card-header card-header-primary">
-									<h4 class="card-title">Modifier vos informations
-										personnelles</h4>
-									<p class="card-category">Laissez les champs de mot de passe
-										vide si vous ne voulez pas changer de mot de passe.</p>
+									<h4 class="card-title">Ajouter un utilisateur</h4>
+									<p class="card-category">Mettez les informations du nouvel utilisateur
+										ci-dessous</p>
 								</div>
 								<div class="card-body">
-									<form method="post" action="User" class="needs-validation"
+									<form method="post" action="AddUser" class="needs-validation"
 										novalidate>
 
 										<%
@@ -171,7 +161,7 @@
 											<div class="col-md-6">
 												<div class="form-group">
 													<label class="bmd-label-floating">Nom</label> <input
-														type="text" name="nom" value="<%=user.getNom()%>"
+														type="text" name="nom"
 														class="form-control" required>
 													<div class="valid-feedback">Correct.</div>
 													<div class="invalid-feedback">Veillez saisir un nom.</div>
@@ -180,7 +170,7 @@
 											<div class="col-md-6">
 												<div class="form-group">
 													<label class="bmd-label-floating">Prénom</label> <input
-														type="text" name="prenom" value="<%=user.getPrenom()%>"
+														type="text" name="prenom"
 														class="form-control" required>
 													<div class="valid-feedback">Correct.</div>
 													<div class="invalid-feedback">Veillez saisir un
@@ -189,35 +179,37 @@
 											</div>
 										</div>
 										<div class="row">
-											<div class="col-md-12">
+											<div class="col-md-6">
 												<div class="form-group">
 													<label class="bmd-label-floating">Username</label> <input
 														type="text" class="form-control"
-														value="<%=user.getUsername()%>" name="username" required>
+													 name="username" required>
 													<div class="valid-feedback">Correct.</div>
 													<div class="invalid-feedback">Veillez saisir un
 														username.</div>
 												</div>
 											</div>
-										</div>
-										<div class="row">
-											<div class="col-md-12">
+											<div class="col-md-6">
 												<div class="form-group">
-													<label class="bmd-label-floating">Ancien mot de
-														passe</label> <input type="password" class="form-control"
-														name="oldPass">
+													<label class="bmd-label-floating">Rôle</label> 
+													<select class="form-control" name="categorie" required>
+														<option></option>
+														<option value="1">Simple utilisateur</option>
+														<option value="2">SAV</option>
+														<option value="3">Administrateur</option>
+													</select>
 													<div class="valid-feedback">Correct.</div>
-													<div class="invalid-feedback">Veillez saisir un
-														username.</div>
+													<div class="invalid-feedback">Veillez sélectionner une
+														catégorie.</div>
 												</div>
 											</div>
 										</div>
 										<div class="row">
 											<div class="col-md-6">
 												<div class="form-group">
-													<label class="bmd-label-floating">Nouveau mot de
+													<label class="bmd-label-floating">Mot de
 														passe</label> <input type="password" name="pass"
-														class="form-control">
+														class="form-control" required>
 													<div class="valid-feedback">Correct.</div>
 													<div class="invalid-feedback">Veillez saisir un mot
 														de passe.</div>
@@ -226,7 +218,7 @@
 											<div class="col-md-6">
 												<div class="form-group">
 													<label class="bmd-label-floating">Confirmer</label> <input
-														type="password" name="passConfirm" class="form-control">
+														required type="password" name="passConfirm" class="form-control">
 													<div class="valid-feedback">Correct.</div>
 													<div class="invalid-feedback">Veillez confirmer le
 														mot de passe..</div>
@@ -235,7 +227,7 @@
 										</div>
 
 										<input type="button" class="btn btn-warning pull-left"
-											onclick="javascript:location.href='javascript:history.go(-1)'" value="Retour" />
+											onclick="javascript:location.href='Users'" value="Retour" />
 										<input type="submit" name="sauvegarder"
 											class="btn btn-primary pull-right" value="Sauvegarder" />
 										<div class="clearfix"></div>
@@ -243,9 +235,7 @@
 								</div>
 							</div>
 						</div>
-						<%
-							}
-						%>
+						
 					</div>
 				</div>
 			</div>
@@ -286,13 +276,11 @@
 		integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
 		crossorigin="anonymous"></script>
 
-
 	<!--  Notifications Plugin    -->
 	<script src="assets/js/plugins/bootstrap-notify.js"></script>
-	
-	
+
 	<script src="assets/js/plugins/perfect-scrollbar.jquery.min.js"></script>
-	
+
 
 	<!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
 	<script src="assets/js/material-dashboard.js?v=2.1.2"
@@ -323,7 +311,33 @@
 				})();
 	</script>
 	
-	
+
+	<%
+		if (request.getAttribute("NewError") != null && request.getAttribute("NewNo") != null) {
+		Integer code = (Integer) request.getAttribute("NewNo");
+		int errorCode = code.intValue();
+
+		if (errorCode == 1) {
+// 			System.out.print(errorCode);
+	%>
+	<!--type = ['', 'info', 'danger', 'success', 'warning', 'rose', 'primary']; -->
+	<script type="text/javascript">
+		md.showNotification('top', 'right', 3,
+						'Nouvel utilisateur enregistré avec succès.');
+	</script>
+	<%
+		} else {
+	%>
+	<!--type = ['', 'info', 'danger', 'success', 'warning', 'rose', 'primary']; -->
+	<script type="text/javascript">
+		// 	alert("i am here");
+		md.showNotification('top', 'right', 2,
+				'Erreur: un problème est survenu lors de l\'ajout du nouvel utilisateur. Veuillez réessayer plutard.');
+	</script>
+	<%
+		}
+	}
+	%>
 
 </body>
 

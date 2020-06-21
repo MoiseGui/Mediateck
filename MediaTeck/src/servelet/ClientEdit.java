@@ -88,6 +88,10 @@ public class ClientEdit extends HttpServlet {
 				}
 
 			}
+			else {
+				RequestDispatcher dispatcher = context.getRequestDispatcher("/Clients");
+				dispatcher.forward(request, response);
+			}
 
 		}
 	}

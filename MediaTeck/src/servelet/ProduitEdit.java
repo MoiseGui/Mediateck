@@ -69,7 +69,7 @@ public class ProduitEdit extends HttpServlet {
 
 			ProduitService produitService = new ProduitService(connection);
 
-			// vérifier si il y'a un cli en cours d'edit
+			// vérifier si il y'a un produit en cours d'edit
 
 			if (request.getParameter("edit") != null) {
 
@@ -87,6 +87,10 @@ public class ProduitEdit extends HttpServlet {
 					dispatcher.forward(request, response);
 				}
 
+			}
+			else {
+				RequestDispatcher dispatcher = context.getRequestDispatcher("/Produits");
+				dispatcher.forward(request, response);
 			}
 
 		}
