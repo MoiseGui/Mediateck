@@ -55,8 +55,21 @@ public class User extends HttpServlet {
 		} else {
 			user = (beans.User) session.getAttribute("user");
 			request.setAttribute("user", user);
-			RequestDispatcher dispatcher = context.getRequestDispatcher("/user.jsp");
-			dispatcher.forward(request, response);
+			
+			if(user.getCategorie() == 3) {
+				RequestDispatcher dispatcher = context.getRequestDispatcher("/user.jsp");
+				dispatcher.forward(request, response);
+			}
+			else if(user.getCategorie() == 2) {
+				RequestDispatcher dispatcher = context.getRequestDispatcher("/userSav.jsp");
+				dispatcher.forward(request, response);
+			}
+			else {
+				RequestDispatcher dispatcher = context.getRequestDispatcher("/userSimple.jsp");
+				dispatcher.forward(request, response);
+			}
+			
+			
 
 		}
 	}
@@ -111,7 +124,7 @@ public class User extends HttpServlet {
 
 					if (oldPass.isEmpty() && pass.isEmpty() && passConfirm.isEmpty()) {
 						// password is not being changed
-						System.out.println("password is not being changed");
+//						System.out.println("password is not being changed");
 
 						if (!username.equals(user.getUsername())) {
 //							System.out.println("username changed "+username);
@@ -134,7 +147,7 @@ public class User extends HttpServlet {
 						request.setAttribute("userNo", result);
 
 						if (result == 1) {
-							System.out.println("username changed");
+//							System.out.println("username changed");
 							user = userService.findByUsername(username);
 							session.setAttribute("user", user);
 						}

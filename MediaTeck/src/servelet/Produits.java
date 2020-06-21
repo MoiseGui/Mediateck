@@ -84,7 +84,7 @@ public class Produits extends HttpServlet {
 					
 					List<Produit> produits = produitService.findAll();
 					
-					session.setAttribute("produits", produits);
+					request.setAttribute("produits", produits);
 					
 					RequestDispatcher dispatcher = context.getRequestDispatcher("/produits.jsp");
 					dispatcher.forward(request, response);

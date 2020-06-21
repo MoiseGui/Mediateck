@@ -85,7 +85,7 @@ public class Clients extends HttpServlet {
 				
 				List<Client> clients = clientService.findAll();
 				
-				session.setAttribute("clients", clients);
+				request.setAttribute("clients", clients);
 				
 				RequestDispatcher dispatcher = context.getRequestDispatcher("/clients.jsp");
 				dispatcher.forward(request, response);

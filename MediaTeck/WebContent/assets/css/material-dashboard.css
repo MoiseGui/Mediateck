@@ -15166,6 +15166,8 @@ fieldset[disabled] .form-group.is-focused .togglebutton label {
   width: 260px;
   background: #fff;
   box-shadow: 0 16px 38px -12px rgba(0, 0, 0, 0.56), 0 4px 25px 0px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.2);
+  background-image: url("../../images/bg_img.jpg");
+  background-position:  center;
 }
 
 .sidebar .caret {
@@ -15284,7 +15286,7 @@ fieldset[disabled] .form-group.is-focused .togglebutton label {
 .sidebar .nav li .dropdown-menu a:focus,
 .sidebar .nav li.active>[data-toggle="collapse"] {
   background-color: rgba(200, 200, 200, 0.2);
-  color: #3C4858;
+  color: #fff;
   box-shadow: none;
 }
 
@@ -15331,14 +15333,14 @@ fieldset[disabled] .form-group.is-focused .togglebutton label {
   line-height: 30px;
   width: 30px;
   text-align: center;
-  color: #a9afbb;
+  color: #fff;
 }
 
 .sidebar .nav li a,
 .sidebar .nav li .dropdown-menu a {
   margin: 10px 15px 0;
   border-radius: 3px;
-  color: #3C4858;
+  color: #fff;
   padding-left: 10px;
   padding-right: 10px;
   text-transform: capitalize;

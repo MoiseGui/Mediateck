@@ -162,7 +162,7 @@
 
 										<table id="fresh-table" class="table">
 											<%
-												List<Client> clients = (List<Client>) session.getAttribute("clients");
+												List<Client> clients = (List<Client>) request.getAttribute("clients");
 
 											if (clients == null || clients.isEmpty()) {
 												out.print(

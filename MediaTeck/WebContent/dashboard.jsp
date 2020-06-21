@@ -1,3 +1,4 @@
+<%@page import="beans.Facture"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -39,7 +40,7 @@
 <body class="">
 	<div class="wrapper ">
 		<div class="sidebar" data-color="purple" data-background-color="white"
-			data-image="../assets/img/sidebar-1.jpg">
+			data-image="images/bg_img.jpg">
 			<div class="logo">
 				<a href="#" class="simple-text logo-normal"> <img class="w-75"
 					src="images/logo.png" alt="Mediateck">
@@ -47,8 +48,8 @@
 			</div>
 			<div class="sidebar-wrapper">
 				<ul class="nav">
-					<li class="nav-item active"><a class="nav-link" href="SAV"> <i
-							class="material-icons">dashboard</i>
+					<li class="nav-item active"><a class="nav-link"
+						href="Dashboard"> <i class="material-icons">dashboard</i>
 							<p>Accueil</p>
 					</a></li>
 					<li class="nav-item "><a class="nav-link" href="User"> <i
@@ -64,7 +65,7 @@
 				class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top ">
 				<div class="container-fluid">
 					<div class="navbar-wrapper">
-						<a class="navbar-brand" href="javascript:;">Service après vente.</a>
+						<a class="navbar-brand" href="javascript:;">Tableau de bord.</a>
 					</div>
 					<button class="navbar-toggler" type="button" data-toggle="collapse"
 						aria-controls="navigation-index" aria-expanded="false"
@@ -130,14 +131,14 @@
 						<div class="col-md-12">
 							<div class="card">
 								<div class="card-header card-header-primary">
-									<h4 class="card-title ">Liste des clients</h4>
+									<h4 class="card-title ">Liste des Factures</h4>
 									<p class="display-inline card-category">Cette liste peut
 										être filtrée à l'aide des outils présents ci-dessous.</p>
-<!-- 									<div class="pull-right"> -->
-<!-- 										<a href="AddClient" class="text-white"><h4><i -->
-<!-- 											class="fa fa-plus-circle"></i> Nouveau client -->
-<!-- 										</h4></a> -->
-<!-- 									</div> -->
+									<div class="pull-right">
+										<a href="AddFacture" class="text-white"><h4><i
+											class="fa fa-plus-circle"></i> Nouvelle facture
+										</h4></a>
+									</div>
 								</div>
 								<div class="card-body">
 
@@ -146,38 +147,41 @@
 
 										<table id="fresh-table" class="table">
 											<%
-												List<ClientSAV> clientsSAV = (List<ClientSAV>) request.getAttribute("clientsSAV");
+												List<Facture> factures = (List<Facture>) request.getAttribute("factures");
 
-											if (clientsSAV == null || clientsSAV.isEmpty()) {
+											if (factures == null || factures.isEmpty()) {
 												out.print(
 												"<div class='alert alert-warning alert-dismissible fadeIn first'><button type='button' class='close' data-dismiss='alert'>&times;</button><strong>Erreur: </strong>");
-												out.print("Aucun client trouvé.");
+												out.print("Aucune facture trouvée.");
 												out.print("</div>");
 											} else {
 											%>
 											<thead>
 												<th data-field="id" data-sortable="true" class="text-center">Numéro</th>
-												<th data-field="nom" data-sortable="true"
-													class="text-center">Nom</th>
-												<th data-field="prenom" data-sortable="true"
-													class="text-center">Prénom</th>
-													<th data-field="chiffre" data-sortable="true"
-													class="text-center">Chiffres</th>
-												<th data-field="categorie" data-sortable="true" class="text-center">Catégorie</th>
+												<th data-field="client" data-sortable="true"
+													class="text-center">Client</th>
+												<th data-field="date" data-sortable="true"
+													class="text-center">Date</th>
+												<th data-field="total" data-sortable="true"
+													class="text-center">Total</th>
+												<th data-field="actions" class="text-center">Modifier</th>
 											</thead>
 											<tbody id="myTable">
 
 												<%
-													for (ClientSAV clientSAV : clientsSAV) {
+													for (Facture facture : factures) {
 												%>
 												<tr>
-													<td><%=clientSAV.getNum_cli()%></td>
-													<td><%=clientSAV.getNom()%></td>
-													<td><%=clientSAV.getPrenom()%></td>
-													<td><%=clientSAV.getChiffre()%></td>
-													<td><%=clientSAV.getCategorie()%></td>
+													<td><%=facture.getNum_fac()%></td>
+													<td><%=facture.getClient().getPrenom() + ' ' + facture.getClient().getNom()%></td>
+													<td><%=facture.getDate_fac()%></td>
+													<td><%=facture.getTotal()%></td>
+													<td><a rel="tooltip" title="Edit"
+														class="table-action edit"
+														href="FactureEdit?edit=<%=facture.getNum_fac()%>" title="Edit"><i
+															class="fa fa-edit"></i> </a></td>
 												</tr>
-												
+
 												<%
 													}
 												}
@@ -243,8 +247,6 @@
 	<script type="text/javascript">
 		var $table = $('#fresh-table')
 
-
-		
 		$(function() {
 			$table.bootstrapTable({
 				classes : 'table table-hover',
@@ -257,14 +259,14 @@
 				pagination : true,
 				striped : true,
 				sortable : true,
-				pageSize : 3,
-				pageList : [2, 3, 5, 8, 10, 15, 20 ],
+				pageSize : 4,
+				pageList : [ 2, 4, 8, 10, 15, 20 ],
 
 				formatShowingRows : function(pageFrom, pageTo, totalRows) {
 					return 'Afficher'
 				},
 				formatRecordsPerPage : function(pageNumber) {
-					return pageNumber + ' Clients'
+					return pageNumber + ' Factures'
 				}
 			})
 
@@ -297,17 +299,18 @@
 						});
 	</script>
 
-<%
+	<%
 		if (request.getAttribute("userError") != null && request.getAttribute("userNo") != null) {
 		Integer code = (Integer) request.getAttribute("userNo");
 		int errorCode = code.intValue();
 
 		if (errorCode == 1) {
-// 			System.out.print(errorCode);
+			// 			System.out.print(errorCode);
 	%>
 	<!--type = ['', 'info', 'danger', 'success', 'warning', 'rose', 'primary']; -->
 	<script type="text/javascript">
-		md.showNotification('top', 'right', 3,
+		md
+				.showNotification('top', 'right', 3,
 						'Vos informations personnelles ont été enregistrées avec succès.');
 	</script>
 	<%
@@ -316,8 +319,12 @@
 	<!--type = ['', 'info', 'danger', 'success', 'warning', 'rose', 'primary']; -->
 	<script type="text/javascript">
 		// 	alert("i am here");
-		md.showNotification('top', 'right', 2,
-				'Erreur: un problème est survenu lors du changement de vos information de compte. Veuillez réessayer plutard.');
+		md
+				.showNotification(
+						'top',
+						'right',
+						2,
+						'Erreur: un problème est survenu lors du changement de vos information de compte. Veuillez réessayer plutard.');
 	</script>
 	<%
 		}

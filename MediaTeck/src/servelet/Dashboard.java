@@ -13,22 +13,26 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import beans.ClientSAV;
+import beans.Client;
+import beans.Facture;
+import beans.Produit;
 import beans.User;
-import dao.ClientSAVService;
+import dao.ClientService;
+import dao.FactureService;
+import dao.ProduitService;
 import utils.SingletonConnexion;
 
 /**
- * Servlet implementation class Clients
+ * Servlet implementation class Dashboard
  */
-@WebServlet("/ClientsSAV")
-public class ClientsSAV extends HttpServlet {
+@WebServlet("/Dashboard")
+public class Dashboard extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
-	public ClientsSAV() {
+	public Dashboard() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
@@ -51,7 +55,7 @@ public class ClientsSAV extends HttpServlet {
 				error = true;
 			} else {
 				user = (User) session.getAttribute("user");
-				if (user == null || user.getCategorie() != 2) {
+				if (user == null || user.getCategorie() != 1) {
 					error = true;
 				}
 			}
@@ -61,24 +65,28 @@ public class ClientsSAV extends HttpServlet {
 			RequestDispatcher dispatcher = context.getRequestDispatcher("/");
 			dispatcher.forward(request, response);
 		} else {
-			
+
 			Connection connection = (Connection) session.getAttribute("connection");
 			if (connection == null) {
 				connection = SingletonConnexion.startConnection();
 			}
-			ClientSAVService clientSAVService = new ClientSAVService(connection);
+			// Charger les clients pour la page
+			ClientService clientService = new ClientService(connection);
+			List<Client> clients = clientService.findAll();
+			request.setAttribute("clients", clients);
 
-				
-				
-				// Charger les clients pour la page
-				
-				List<ClientSAV> clientsSAV = clientSAVService.findAll();
-				
-				session.setAttribute("clientsSAV", clientsSAV);
-				
-				RequestDispatcher dispatcher = context.getRequestDispatcher("/sav.jsp");
-				dispatcher.forward(request, response);
-				
+			// Charger les produits
+			ProduitService produitService = new ProduitService(connection);
+			List<Produit> produits = produitService.findAll();
+			request.setAttribute("produits", produits);
+
+			FactureService factureService = new FactureService(connection);
+			List<Facture> factures = factureService.findAll();
+			request.setAttribute("factures", factures);
+
+			RequestDispatcher dispatcher = context.getRequestDispatcher("/dashboard.jsp");
+			dispatcher.forward(request, response);
+
 		}
 	}
 

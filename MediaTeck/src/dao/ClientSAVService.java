@@ -21,16 +21,16 @@ public class ClientSAVService {
 
 		try {
 			if (conn != null) {
-				String query = "select * from v_chiffre_affaire ";
+				String query = "select * from v_chiffre_affaire";
 				PreparedStatement ps = conn.prepareStatement(query);
 				ResultSet result = ps.executeQuery();
 				while (result.next()) {
 					ClientSAV ClientSAV = new ClientSAV();
-					ClientSAV.setId(result.getLong(1));
-					ClientSAV.setNum_cli(result.getLong(2));
-					ClientSAV.setNom(result.getString(3));
-					ClientSAV.setPrenom(result.getString(4));
-					ClientSAV.setCategorie(result.getString(6));
+					ClientSAV.setNum_cli(result.getLong(1));
+					ClientSAV.setNom(result.getString(2));
+					ClientSAV.setPrenom(result.getString(3));
+					ClientSAV.setChiffre(result.getDouble(4));
+					ClientSAV.setCategorie(result.getString(5));
 
 					ClientSAVs.add(ClientSAV);
 
@@ -59,11 +59,11 @@ public class ClientSAVService {
 				if (result.next()) {
 					
 					ClientSAV ClientSAV = new ClientSAV();
-					ClientSAV.setId(result.getLong(1));
-					ClientSAV.setNum_cli(result.getLong(2));
-					ClientSAV.setNom(result.getString(3));
-					ClientSAV.setPrenom(result.getString(4));
-					ClientSAV.setCategorie(result.getString(6));
+					ClientSAV.setNum_cli(result.getLong(1));
+					ClientSAV.setNom(result.getString(2));
+					ClientSAV.setPrenom(result.getString(3));
+					ClientSAV.setChiffre(result.getDouble(4));
+					ClientSAV.setCategorie(result.getString(5));
 
 					return ClientSAV;
 				}

@@ -6,6 +6,7 @@ public class Produit {
 	private double prix;
 	private long qte_stock;
 	private int deleted;
+	private String mention;
 	
 	public Produit() {
 		super();
@@ -88,6 +89,16 @@ public class Produit {
 
 	public void setDeleted(int deleted) {
 		this.deleted = deleted;
+	}
+
+
+	public String getMention() {
+		return mention;
+	}
+
+
+	public void setMention(String mention) {
+		this.mention = mention;
 	}
 	
 	

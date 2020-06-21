@@ -162,7 +162,7 @@
 
 										<table id="fresh-table" class="table">
 											<%
-												List<Produit> produits = (List<Produit>) session.getAttribute("produits");
+												List<Produit> produits = (List<Produit>) request.getAttribute("produits");
 
 											if (produits == null || produits.isEmpty()) {
 												out.print(
@@ -179,6 +179,8 @@
 													class="text-center">Prix</th>
 													<th data-field="qte_stock" data-sortable="true"
 													class="text-center">Quantité</th>
+													<th data-field="mention" data-sortable="true"
+													class="text-center">Mention</th>
 												<th data-field="actions" data-formatter="operateFormatter"
 													data-events="operateEvents" class="text-center">Actions</th>
 											</thead>
@@ -192,6 +194,7 @@
 													<td><%=produit.getDesignation()%></td>
 													<td><%=produit.getPrix()%></td>
 													<td><%=produit.getQte_stock()%></td>
+													<td><%=produit.getMention() %></td>
 													<td></td>
 												</tr>
 												<!-- The Modal -->

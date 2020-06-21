@@ -1,6 +1,8 @@
 package servelet;
 
 import java.io.IOException;
+import java.sql.Connection;
+import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
@@ -11,10 +13,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import beans.ClientSAV;
 import beans.User;
+import dao.ClientSAVService;
+import utils.SingletonConnexion;
 
 /**
- * Servlet implementation class Admin
+ * Servlet implementation class Clients
  */
 @WebServlet("/SAV")
 public class SAV extends HttpServlet {
@@ -29,42 +34,52 @@ public class SAV extends HttpServlet {
 	}
 
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+	 *      response)
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		ServletContext context = getServletContext();
 		HttpSession session = request.getSession(false);
 		User user;
 		boolean error = false;
-		
-		if(session == null) {
+
+		if (session == null) {
 			error = true;
-		}
-		else {
-			if(session.getAttribute("user") == null) {
+		} else {
+			if (session.getAttribute("user") == null) {
 				error = true;
-			}
-			else {
+			} else {
 				user = (User) session.getAttribute("user");
-				if(user == null || user.getCategorie() != 2) {
+				if (user == null || user.getCategorie() != 2) {
 					error = true;
 				}
 			}
 		}
-		
-		
-		if(error) {
+
+		if (error) {
 			RequestDispatcher dispatcher = context.getRequestDispatcher("/");
 			dispatcher.forward(request, response);
+		} else {
+			
+			Connection connection = (Connection) session.getAttribute("connection");
+			if (connection == null) {
+				connection = SingletonConnexion.startConnection();
+			}
+			ClientSAVService clientSAVService = new ClientSAVService(connection);
+
+				
+				
+				// Charger les clients pour la page
+				
+				List<ClientSAV> clientsSAV = clientSAVService.findAll();
+				
+				request.setAttribute("clientsSAV", clientsSAV);
+				
+				RequestDispatcher dispatcher = context.getRequestDispatcher("/sav.jsp");
+				dispatcher.forward(request, response);
+				
 		}
-		else {
-			RequestDispatcher dispatcher = context.getRequestDispatcher("/sav.jsp");
-			dispatcher.forward(request, response);
-		}
-		
-		
-		
-		
 	}
 
 	/**

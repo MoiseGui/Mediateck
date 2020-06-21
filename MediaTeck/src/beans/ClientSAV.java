@@ -1,33 +1,14 @@
 package beans;
 
 public class ClientSAV {
-	private long id;
 	private long num_cli;
 	private String nom;
 	private String prenom;
+	private double chiffre;
 	private String categorie;
 	
 	public ClientSAV() {
 		super();
-	}
-
-
-	public ClientSAV(long id,long num_cli, String nom, String prenom, String categorie) {
-		super();
-		this.id = id;
-		this.nom = nom;
-		this.num_cli = num_cli;
-		this.prenom = prenom;
-		this.categorie = categorie;
-	}
-
-	
-
-	public ClientSAV(long id, String nom, String prenom) {
-		super();
-		this.id = id;
-		this.nom = nom;
-		this.prenom = prenom;
 	}
 
 
@@ -39,14 +20,12 @@ public class ClientSAV {
 		this.categorie = categorie;
 	}
 
+	
 
-	public long getId() {
-		return id;
-	}
-
-
-	public void setId(long id) {
-		this.id = id;
+	public ClientSAV(String nom, String prenom) {
+		super();
+		this.nom = nom;
+		this.prenom = prenom;
 	}
 
 
@@ -87,6 +66,16 @@ public class ClientSAV {
 
 	public void setCategorie(String categorie) {
 		this.categorie = categorie;
+	}
+
+
+	public double getChiffre() {
+		return chiffre;
+	}
+
+
+	public void setChiffre(double chiffre) {
+		this.chiffre = chiffre;
 	}
 
 	

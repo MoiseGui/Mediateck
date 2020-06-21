@@ -21,7 +21,7 @@ import beans.Produit;
 
 			try {
 				if (conn != null) {
-					String query = "select * from produit where deleted = 0";
+					String query = "select produit.*, mention(num_prod) from produit where deleted = 0";
 					PreparedStatement ps = conn.prepareStatement(query);
 					ResultSet result = ps.executeQuery();
 					while (result.next()) {
@@ -31,6 +31,7 @@ import beans.Produit;
 						produit.setPrix(result.getDouble(3));
 						produit.setQte_stock(result.getLong(4));
 						produit.setDeleted(result.getInt(5));
+						produit.setMention(result.getString(6));
 						
 						produits.add(produit);
 
