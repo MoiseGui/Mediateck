@@ -13,13 +13,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import beans.Client;
 import beans.Facture;
-import beans.Produit;
 import beans.User;
-import dao.ClientService;
 import dao.FactureService;
-import dao.ProduitService;
 import utils.SingletonConnexion;
 
 /**
@@ -70,15 +66,15 @@ public class Dashboard extends HttpServlet {
 			if (connection == null) {
 				connection = SingletonConnexion.startConnection();
 			}
-			// Charger les clients pour la page
-			ClientService clientService = new ClientService(connection);
-			List<Client> clients = clientService.findAll();
-			request.setAttribute("clients", clients);
-
-			// Charger les produits
-			ProduitService produitService = new ProduitService(connection);
-			List<Produit> produits = produitService.findAll();
-			request.setAttribute("produits", produits);
+//			// Charger les clients pour la page
+//			ClientService clientService = new ClientService(connection);
+//			List<Client> clients = clientService.findAll();
+//			request.setAttribute("clients", clients);
+//
+//			// Charger les produits
+//			ProduitService produitService = new ProduitService(connection);
+//			List<Produit> produits = produitService.findAll();
+//			request.setAttribute("produits", produits);
 
 			FactureService factureService = new FactureService(connection);
 			List<Facture> factures = factureService.findAll();

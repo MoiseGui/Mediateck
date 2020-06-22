@@ -1,12 +1,12 @@
 package beans;
 
-import java.util.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Facture {
 	private long num_fac;
 	private Client client;
-	private Date date_fac;
+	private String date_fac;
 	private double total;
 	
 	private List<Ligne_facture> ligne_factures;
@@ -14,7 +14,10 @@ public class Facture {
 	
 	public Facture() {
 		super();
-		// TODO Auto-generated constructor stub
+		this.ligne_factures = new ArrayList<Ligne_facture>();
+		this.client = new Client();
+//		this.date_fac = new Date();
+//		System.out.println(date_fac.getDate()+ "/" + (date_fac.getMonth()+1) + "/" + (date_fac.getYear()+1900));
 	}
 
 	public double getTotal() {
@@ -46,15 +49,16 @@ public class Facture {
 	}
 
 
-	public Date getDate_fac() {
+
+
+
+	public String getDate_fac() {
 		return date_fac;
 	}
 
-
-	public void setDate_fac(Date date_fac) {
+	public void setDate_fac(String date_fac) {
 		this.date_fac = date_fac;
 	}
-
 
 	public List<Ligne_facture> getLigne_factures() {
 		return ligne_factures;

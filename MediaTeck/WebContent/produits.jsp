@@ -34,6 +34,13 @@
 <!-- CSS Files -->
 <link href="assets/css/material-dashboard.css?v=2.1.2" rel="stylesheet" />
 
+<style type="text/css">
+.redTd{
+	text-align:center;
+	color:red;
+}
+</style>
+
 </head>
 
 <body class="">
@@ -193,7 +200,7 @@
 													<td><%=produit.getId()%></td>
 													<td><%=produit.getDesignation()%></td>
 													<td><%=produit.getPrix()%></td>
-													<td><%=produit.getQte_stock()%></td>
+													<td <% if(produit.getQte_stock() <= 5) out.print("class='redTd'"); %> ><%=produit.getQte_stock()%></td>
 													<td><%=produit.getMention() %></td>
 													<td></td>
 												</tr>
@@ -334,7 +341,7 @@
 					return pageNumber + ' produits'
 				}
 			})
-
+			
 		})
 	</script>
 

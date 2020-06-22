@@ -166,7 +166,7 @@
 
 											if (clients == null || clients.isEmpty()) {
 												out.print(
-												"<div class='alert alert-warning alert-dismissible fadeIn first'><button type='button' class='close' data-dismiss='alert'>&times;</button><strong>Erreur: </strong>");
+												"<div class='alert alert-warning alert-dismissible fadeIn first'><button type='button' class='close' data-dismiss='alert'>&times;</button><strong>Info: </strong>");
 												out.print("Aucun client trouvé.");
 												out.print("</div>");
 											} else {

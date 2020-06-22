@@ -174,5 +174,35 @@ import beans.Produit;
 				return -4;
 			}
 		}
+		
+		public int addQte(long id, int qte) {
+			try {
+				if (conn != null) {
+
+					String query = "update produit set qte_stock = qte_stock + ? where Num_prod = ?";
+					PreparedStatement ps = conn.prepareStatement(query);
+					ps.setInt(1, qte);
+					ps.setLong(2, id);
+					int count = ps.executeUpdate();
+					if (count == 1) {
+						ps.close();
+						return 1;
+					} else if (count == 0) {
+						ps.close();
+						return 0;
+					} else {
+						ps.close();
+						return -2;
+					}
+
+				} else {
+					System.out.println("Connection nulle dans addQte produit");
+					return -3;
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+				return -4;
+			}
+		}
 
 }

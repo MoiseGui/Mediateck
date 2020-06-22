@@ -10,6 +10,27 @@ public class Ligne_facture {
 		super();
 		// TODO Auto-generated constructor stub
 	}
+	
+	
+	
+
+	public Ligne_facture(Produit produit, int qte_achete) {
+		super();
+		this.produit = produit;
+		this.qte_achete = qte_achete;
+	}
+
+
+
+
+	public Ligne_facture(long num_fac, Produit produit, int qte_achete) {
+		super();
+		this.num_fac = num_fac;
+		this.produit = produit;
+		this.qte_achete = qte_achete;
+	}
+
+
 
 
 	public long getNum_fac() {
