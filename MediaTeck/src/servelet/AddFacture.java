@@ -220,8 +220,15 @@ public class AddFacture extends HttpServlet {
 						session.removeAttribute("newFac");
 						session.removeAttribute("FactureAdd");
 						
-						RequestDispatcher dispatcher = context.getRequestDispatcher("/Dashboard");
-						dispatcher.forward(request, response);
+						if(user.getCategorie() == 1) {
+							RequestDispatcher dispatcher = context.getRequestDispatcher("/Dashboard");
+							dispatcher.forward(request, response);
+						}
+						else {
+							RequestDispatcher dispatcher = context.getRequestDispatcher("/Factures");
+							dispatcher.forward(request, response);
+						}
+						
 					}
 					else {
 						doGet(request, response);

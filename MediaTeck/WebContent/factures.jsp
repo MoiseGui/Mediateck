@@ -86,7 +86,7 @@
 				class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top ">
 				<div class="container-fluid">
 					<div class="navbar-wrapper">
-						<a class="navbar-brand" href="javascript:;">Tableau de bord.</a>
+						<a class="navbar-brand" href="javascript:;">Commandes / Factures</a>
 					</div>
 					<button class="navbar-toggler" type="button" data-toggle="collapse"
 						aria-controls="navigation-index" aria-expanded="false"
@@ -157,7 +157,7 @@
 										être filtrée à l'aide des outils présents ci-dessous.</p>
 									<div class="pull-right">
 										<a href="AddFacture" class="text-white"><h4><i
-											class="fa fa-plus-circle"></i> Nouvelle facture
+											class="fa fa-plus-circle"></i> Nouvelle commande
 										</h4></a>
 									</div>
 								</div>
@@ -425,6 +425,8 @@
 		}
 	}
 	%>
+	
+	
 
 </body>
 

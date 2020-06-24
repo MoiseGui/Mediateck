@@ -198,7 +198,7 @@
 													<label class="bmd-label-floating">Rôle</label> 
 													<select class="form-control" name="categorie" required>
 														<option></option>
-														<option value="1">Simple utilisateur</option>
+														<option value="1">Vendeur</option>
 														<option value="2">SAV</option>
 														<option value="3">Administrateur</option>
 													</select>

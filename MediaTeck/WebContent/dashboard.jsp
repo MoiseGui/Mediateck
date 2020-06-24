@@ -141,7 +141,7 @@
 										être filtrée à l'aide des outils présents ci-dessous.</p>
 									<div class="pull-right">
 										<a href="AddFacture" class="text-white"><h4><i
-											class="fa fa-plus-circle"></i> Nouvelle facture
+											class="fa fa-plus-circle"></i> Nouvelle commande
 										</h4></a>
 									</div>
 								</div>

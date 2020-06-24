@@ -72,11 +72,17 @@ public class Facture {
 	public void calculTotal() {
 		double total = 0;
 		
-		for (Ligne_facture ligne_facture : ligne_factures) {
-			total += ligne_facture.getQte_achete() * ligne_facture.getProduit().getPrix();
-		}
+		if(ligne_factures == null) ligne_factures = new ArrayList<Ligne_facture>();
 		
-		this.total = total;
+		if(ligne_factures.isEmpty()) this.total = 0;
+		else {
+			
+			for (Ligne_facture ligne_facture : ligne_factures) {
+				if(ligne_facture != null) total += ligne_facture.getQte_achete() * ligne_facture.getProduit().getPrix();
+			}
+			
+			this.total = total;
+		}
 	}
 	
 }

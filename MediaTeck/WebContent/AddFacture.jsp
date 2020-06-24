@@ -79,7 +79,7 @@ Facture facture = (Facture) session.getAttribute("FactureAdd");
 				class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top ">
 				<div class="container-fluid">
 					<div class="navbar-wrapper">
-						<a class="navbar-brand" href="javascript:;">Nouvelle facture</a>
+						<a class="navbar-brand" href="javascript:;">Nouvelle commande</a>
 					</div>
 					<button class="navbar-toggler" type="button" data-toggle="collapse"
 						aria-controls="navigation-index" aria-expanded="false"
@@ -148,7 +148,7 @@ Facture facture = (Facture) session.getAttribute("FactureAdd");
 							<div class="col-md-6">
 								<div class="card">
 									<div class="card-header card-header-primary">
-										<h4 class="card-title">Ajouter une facture</h4>
+										<h4 class="card-title">Ajouter une commande</h4>
 										<p class="card-category">Remplissez les champs ci-dessous</p>
 									</div>
 									<div class="card-body">
@@ -195,7 +195,7 @@ else
 											</div>
 										</div>
 										<input type="button" class="btn btn-warning pull-left"
-											onclick="javascript:location.href='Clients'" value="Retour" />
+											onclick="javascript:location.href='Dashboard'" value="Retour" />
 										<div class="clearfix"></div>
 
 									</div>

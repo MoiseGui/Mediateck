@@ -72,7 +72,7 @@ Facture facture = (Facture) session.getAttribute("FactureEdit");
 				class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top ">
 				<div class="container-fluid">
 					<div class="navbar-wrapper">
-						<a class="navbar-brand" href="javascript:;">Nouvelle facture</a>
+						<a class="navbar-brand" href="javascript:;">Modifier la facture</a>
 					</div>
 					<button class="navbar-toggler" type="button" data-toggle="collapse"
 						aria-controls="navigation-index" aria-expanded="false"

@@ -1,3 +1,8 @@
+<%@page import="beans.Ligne_facture"%>
+<%@page import="beans.Produit"%>
+<%@page import="java.time.LocalDate"%>
+<%@page import="utils.DateUtil"%>
+<%@page import="beans.Facture"%>
 <%@page import="beans.Client"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
@@ -25,6 +30,19 @@
 <link href="assets/css/material-dashboard.css?v=2.1.2" rel="stylesheet" />
 
 </head>
+
+
+<%
+	Integer value = (Integer) session.getAttribute("newFac");
+int i = value.intValue();
+
+boolean newFac = false;
+if (i == 1)
+	newFac = true;
+
+Facture facture = (Facture) session.getAttribute("FactureAdd");
+%>
+
 
 <body class="">
 	<div class="wrapper ">
@@ -74,7 +92,7 @@
 				class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top ">
 				<div class="container-fluid">
 					<div class="navbar-wrapper">
-						<a class="navbar-brand" href="javascript:;">Nouveau client</a>
+						<a class="navbar-brand" href="javascript:;">Nouvelle commande</a>
 					</div>
 					<button class="navbar-toggler" type="button" data-toggle="collapse"
 						aria-controls="navigation-index" aria-expanded="false"
@@ -136,51 +154,174 @@
 			<!-- End Navbar -->
 			<div class="content">
 				<div class="container-fluid">
-					<div class="row">
-						
-						<div class="col-md-8">
-							<div class="card">
-								<div class="card-header card-header-primary">
-									<h4 class="card-title">Ajouter un client</h4>
-									<p class="card-category">Mettez les informations du nouveau client
-										ci-dessous</p>
-								</div>
-								<div class="card-body">
-									<form method="post" action="AddClient"
-										class="needs-validation" novalidate>
-									<input type="hidden" name="id">
+					<form method="post" action="AddFacture" class="needs-validation"
+						novalidate>
+						<div class="row">
+
+							<div class="col-md-6">
+								<div class="card">
+									<div class="card-header card-header-primary">
+										<h4 class="card-title">Ajouter une commande</h4>
+										<p class="card-category">Remplissez les champs ci-dessous</p>
+									</div>
+									<div class="card-body">
+										<input type="hidden" name="id">
 										<div class="row">
 											<div class="col-md-6">
 												<div class="form-group">
-													<label class="bmd-label-floating">Nom</label> <input
-														type="text" name="nom"
-														class="form-control" required>
+													<label class="bmd-label-floating">Date </label> <input
+														type="date" name="date" class="form-control"
+														value="<%if (newFac)
+	out.print(DateUtil.format(LocalDate.now()));
+else
+	out.print(facture.getDate_fac());%>"
+														required>
 													<div class="valid-feedback">Correct.</div>
-													<div class="invalid-feedback">Veillez saisir un nom.</div>
+													<div class="invalid-feedback">Veillez choisir une
+														date.</div>
 												</div>
 											</div>
 											<div class="col-md-6">
 												<div class="form-group">
-													<label class="bmd-label-floating">Prénom</label> <input
-														type="text" name="prenom"
-														class="form-control" required>
+													<label class="bmd-label-floating">Client</label> <select
+														name="client" class="form-control" required>
+														<option></option>
+														<%
+															List<Client> clients = (List<Client>) request.getAttribute("clients");
+
+														for (Client client : clients) {
+														%>
+														<option value="<%=client.getId()%>"
+															<%if (!newFac && facture.getClient().getId() == client.getId())
+	out.print("selected");%>>
+															<%=client.getPrenom()%>
+															<%=client.getNom()%>
+														</option>
+														<%
+															}
+														%>
+													</select>
 													<div class="valid-feedback">Correct.</div>
-													<div class="invalid-feedback">Veillez saisir un
-														prénom.</div>
+													<div class="invalid-feedback">Veillez choisir un
+														client.</div>
 												</div>
 											</div>
 										</div>
-										<input type="button"
-											class="btn btn-warning pull-left" onclick="javascript:location.href='Clients'" value="Retour" />
+										<input type="button" class="btn btn-warning pull-left"
+											onclick="javascript:location.href='Admin'" value="Retour" />
+										<div class="clearfix"></div>
+
+									</div>
+								</div>
+							</div>
+
+							<div class="col-md-6">
+								<div class="card">
+									<div class="card-header card-header-primary">
+										<h4 class="card-title">Ajouter un produit</h4>
+										<p class="card-category">Veillez choisir le produit puis
+											la quantité commandée.</p>
+									</div>
+									<div class="card-body">
+										<input type="hidden" name="id">
+										<div class="row">
+											<div class="col-md-6">
+												<div class="form-group">
+													<label class="bmd-label-floating">Produit</label> <select
+														name="produit" class="form-control" required>
+														<option></option>
+														<%
+															List<Produit> produits = (List<Produit>) request.getAttribute("produits");
+
+														for (Produit produit : produits) {
+														%>
+														<option value="<%=produit.getId()%>">
+															<%=produit.getDesignation()%> :
+															<%=produit.getQte_stock()%> disponibles
+														</option>
+														<%
+															}
+														%>
+													</select>
+													<div class="valid-feedback">Correct.</div>
+													<div class="invalid-feedback">Veillez choisir un
+														produit.</div>
+												</div>
+											</div>
+											<div class="col-md-6">
+												<div class="form-group">
+													<label class="bmd-label-floating">Quantité</label> <input
+														type="number" min="1" name="qte" class="form-control"
+														required>
+													<div class="valid-feedback">Correct.</div>
+													<div class="invalid-feedback">Veillez entrer une
+														quantité valide.</div>
+												</div>
+											</div>
+										</div>
+
 										<input type="submit" name="ajouter"
 											class="btn btn-primary pull-right" value="Ajouter" />
 										<div class="clearfix"></div>
-									</form>
+									</div>
 								</div>
 							</div>
-						</div>
-						
-					</div>
+
+							<div class="col-lg-12 col-md-12">
+								<div class="card">
+									<div class="card-header card-header-primary">
+										<h4 class="card-title">Liste des produits</h4>
+									</div>
+									<div class="card-body table-responsive">
+										<table class="table table-hover">
+											<thead>
+												<th class="text-center">Produit</th>
+												<th class="text-center">Prix unitaire</th>
+												<th class="text-center">Quantité</th>
+												<th class="text-center">Total</th>
+												<th class="text-center">Actions</th>
+											</thead>
+											<%
+												if (newFac || facture.getLigne_factures() == null || facture.getLigne_factures().isEmpty()) {
+												out.print(
+												"<div class='alert alert-warning alert-dismissible fadeIn first'><button type='button' class='close' data-dismiss='alert'>&times;</button><strong>Info: </strong>");
+												out.print("Aucun produit ajouté.");
+												out.print("</div>");
+											} else {
+												for (Ligne_facture ligne_facture : facture.getLigne_factures()) {
+											%>
+
+											<tbody>
+												<tr>
+													<td class="text-center"><%=ligne_facture.getProduit().getDesignation()%></td>
+													<td class="text-center"><%=ligne_facture.getProduit().getPrix()%></td>
+													<td class="text-center"><%=ligne_facture.getQte_achete()%></td>
+													<td class="text-center"><%=ligne_facture.getProduit().getPrix() * ligne_facture.getQte_achete()%></td>
+													<td class="td-actions text-center"><a
+														href="AddFacture?remove=<%=ligne_facture.getProduit().getId()%>"><button
+																type="button" rel="tooltip" title="Retirer"
+																class="btn btn-danger btn-link btn-sm">
+																<i class="material-icons">close</i>
+															</button></a></td>
+												</tr>
+											</tbody>
+											<%
+												}
+											}
+											%>
+										</table>
+					</form>
+					<form method="post" action="AddFacture">
+						<h3 class="pull-left">
+							Total :
+							<%=facture.getTotal()%>&nbsp;
+						</h3>
+						<input type="submit" name="enregistrer"
+							class="btn btn-success pull-right"
+							style="background-color: green" value="Enregistrer"
+							<%if (newFac || facture.getLigne_factures() == null || facture.getLigne_factures().isEmpty())
+	out.print("disabled");%> />
+					</form>
 				</div>
 			</div>
 			<footer class="footer">

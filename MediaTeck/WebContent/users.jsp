@@ -174,7 +174,7 @@
 												out.print("Aucun client trouvé.");
 												out.print("</div>");
 											} else {
-												String[] roles = {"", "Simple utilisateur", "SAV", "Administrateur"};
+												String[] roles = {"", "Vendeur", "SAV", "Administrateur"};
 											%>
 											<thead>
 												<th data-field="id" data-sortable="true" class="text-center">Numéro</th>

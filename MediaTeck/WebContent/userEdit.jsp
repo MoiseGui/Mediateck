@@ -206,7 +206,7 @@
 													<label class="bmd-label-floating">Rôle</label> 
 													<select class="form-control" name="categorie" required>
 														<option></option>
-														<option value="1"  <% if(user.getCategorie() == 1) out.print("selected"); %> >Simple utilisateur</option>
+														<option value="1"  <% if(user.getCategorie() == 1) out.print("selected"); %> >Vendeur</option>
 														<option value="2" <% if(user.getCategorie() == 2) out.print("selected"); %> >SAV</option>
 														<option value="3" <% if(user.getCategorie() == 3) out.print("selected"); %> >Administrateur</option>
 													</select>
