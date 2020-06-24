@@ -1,8 +1,10 @@
+<%@page import="beans.Facture"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<%@page import="beans.Produit"%>
+<%@page import="beans.ClientSAV"%>
 <%@page import="java.util.List"%>
+<%-- <%@page import="java.util.Date"%> --%>
 <html lang="fr">
 
 <head>
@@ -10,7 +12,7 @@
 <link rel="apple-touch-icon" sizes="76x76" href="images/favicon.png">
 <link rel="icon" type="image/png" href="images/favicon.png">
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-<title>Produits - Mediateck</title>
+<title>SAV - Mediateck</title>
 <meta content='width=device-width, initial-scale=1.0, shrink-to-fit=no'
 	name='viewport' />
 
@@ -34,19 +36,12 @@
 <!-- CSS Files -->
 <link href="assets/css/material-dashboard.css?v=2.1.2" rel="stylesheet" />
 
-<style type="text/css">
-.redTd {
-	text-align: center;
-	color: red;
-}
-</style>
-
 </head>
 
 <body class="">
 	<div class="wrapper ">
 		<div class="sidebar" data-color="purple" data-background-color="white"
-			data-image="../assets/img/sidebar-1.jpg">
+			data-image="images/bg_img.jpg">
 			<div class="logo">
 				<a href="#" class="simple-text logo-normal"> <img class="w-75"
 					src="images/logo.png" alt="Mediateck">
@@ -62,16 +57,16 @@
 							<i class="material-icons">contacts</i>
 							<p>Clients</p>
 					</a></li>
-					<li class="nav-item active"><a class="nav-link"
-						href="Produits"> <i class="material-icons">table_chart</i>
+					<li class="nav-item"><a class="nav-link" href="Produits">
+							<i class="material-icons">table_chart</i>
 							<p>Produits</p>
 					</a></li>
-					<li class="nav-item "><a class="nav-link" href="Factures">
+					<li class="nav-item active"><a class="nav-link" href="Factures">
 							<i class="material-icons">content_paste</i>
 							<p>Factures</p>
 					</a></li>
-					<li class="nav-item "><a class="nav-link" href="Users"> <i
-							class="material-icons">people</i>
+					<li class="nav-item "><a class="nav-link" href="Users">
+							<i class="material-icons">people</i>
 							<p>Utilisateurs</p>
 					</a></li>
 					<li class="nav-item "><a class="nav-link" href="User"> <i
@@ -91,7 +86,7 @@
 				class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top ">
 				<div class="container-fluid">
 					<div class="navbar-wrapper">
-						<a class="navbar-brand" href="javascript:;">Produits</a>
+						<a class="navbar-brand" href="javascript:;">Tableau de bord.</a>
 					</div>
 					<button class="navbar-toggler" type="button" data-toggle="collapse"
 						aria-controls="navigation-index" aria-expanded="false"
@@ -157,13 +152,13 @@
 						<div class="col-md-12">
 							<div class="card">
 								<div class="card-header card-header-primary">
-									<h4 class="card-title ">Liste des produits</h4>
+									<h4 class="card-title ">Liste des Factures</h4>
 									<p class="display-inline card-category">Cette liste peut
 										être filtrée à l'aide des outils présents ci-dessous.</p>
 									<div class="pull-right">
-										<a href="AddProduit" class="text-white"><h4>
-												<i class="fa fa-plus-circle"></i> Nouveau produit
-											</h4></a>
+										<a href="AddFacture" class="text-white"><h4><i
+											class="fa fa-plus-circle"></i> Nouvelle facture
+										</h4></a>
 									</div>
 								</div>
 								<div class="card-body">
@@ -173,70 +168,57 @@
 
 										<table id="fresh-table" class="table">
 											<%
-												List<Produit> produits = (List<Produit>) request.getAttribute("produits");
+												List<Facture> factures = (List<Facture>) request.getAttribute("factures");
 
-											if (produits == null || produits.isEmpty()) {
+											if (factures == null || factures.isEmpty()) {
 												out.print(
 												"<div class='alert alert-warning alert-dismissible fadeIn first'><button type='button' class='close' data-dismiss='alert'>&times;</button><strong>Erreur: </strong>");
-												out.print("Aucun produit trouvé.");
+												out.print("Aucune facture trouvée.");
 												out.print("</div>");
 											} else {
 											%>
 											<thead>
 												<th data-field="id" data-sortable="true" class="text-center">Numéro</th>
-												<th data-field="designation" data-sortable="true"
-													class="text-center">Designation</th>
-												<th data-field="prix" data-sortable="true"
-													class="text-center">Prix</th>
-												<th data-field="qte_stock" data-sortable="true"
-													class="text-center">Quantité</th>
-												<th data-field="mention" data-sortable="true"
-													class="text-center">Mention</th>
-												<th data-field="actions" data-formatter="operateFormatter"
-													data-events="operateEvents" class="text-center">Actions</th>
+												<th data-field="client" data-sortable="true"
+													class="text-center">Client</th>
+												<th data-field="date" data-sortable="true"
+													class="text-center">Date</th>
+												<th data-field="total" data-sortable="true"
+													class="text-center">Total</th>
+												<th data-field="actions" class="">Actions</th>
 											</thead>
 											<tbody id="myTable">
 
 												<%
-													for (Produit produit : produits) {
+													for (Facture facture : factures) {
 												%>
 												<tr>
-													<td><%=produit.getId()%></td>
-													<td><%=produit.getDesignation()%></td>
-													<td><%=produit.getPrix()%></td>
-													<td
-														<%if (produit.getQte_stock() <= 5)
-	out.print("class='redTd'");%>><%=produit.getQte_stock()%></td>
-													<td><%=produit.getMention()%></td>
-													<td></td>
-												</tr>
-												<!-- The Modal -->
-												<div class="modal" id="myModal<%=produit.getId()%>">
-													<div class="modal-dialog">
-														<div class="modal-content">
-															<div class="modal-header">
-																<h4 class="modal-title">Confirmer la suppression</h4>
-																<button type="button" class="close" data-dismiss="modal">&times;</button>
-															</div>
-															<div class="modal-body">
-																Voulez vous vraiment supprimer le produit :
-																<%=produit.getDesignation()%>
-
-																?
-															</div>
-															<div class="modal-footer">
-																<!-- 																<a class="text-white" -->
-																<%-- 																	href="Produits?cli=<%=Produit.getId()%>"> --%>
-																<button type="button" class="btn btn-success"
-																	data-dismiss="modal"
-																	onClick="javascript:location.href = 'Produits?prod=<%=produit.getId()%>';">Oui</button>
-																<!-- 																</a> -->
-																<button type="button" class="btn btn-danger"
-																	data-dismiss="modal">Annuler</button>
-															</div>
-														</div>
+													<td><%=facture.getNum_fac()%></td>
+													<td><%=facture.getClient().getPrenom() + ' ' + facture.getClient().getNom()%></td>
+													<td><%=facture.getDate_fac()%></td>
+													<td><%=facture.getTotal()%></td>
+													<td>
+													<div class="row">
+														<a rel="tooltip" title="Modifier" class="table-action edit"
+															href="FactureEdit?edit=<%=facture.getNum_fac()%>">
+															<button type="submit" class="btn btn-white btn-round btn-just-icon">
+								                                  <i class="fa fa-edit material-icons text-primary"></i>
+								                                  <div class="ripple-container"></div>
+								                              </button>
+														</a>
+								                        <form target="_blank" method="post" action="GetFacture">
+								                           <input type="hidden" name="facture" value="<%=facture.getNum_fac()%>" >
+								                              <button name="generer" type="submit" rel="tooltip" title="Générer la facture" class="btn btn-white btn-round btn-just-icon">
+								                                  <i class="fa fa-file-pdf-o material-icons text-primary"></i>
+								                                  <div class="ripple-container"></div>
+								                              </button>
+								                         </form>
 													</div>
-												</div>
+													
+														
+													</td>
+												</tr>
+
 												<%
 													}
 												}
@@ -302,29 +284,6 @@
 	<script type="text/javascript">
 		var $table = $('#fresh-table')
 
-		window.operateEvents = {
-		// 			'click .edit' : function(e, value, row, index) {
-		// 				alert('You click edit icon, row id: ' + row['id'])
-		// 				console.log(value, row, index)
-		// 			},
-		// 			'click .remove' : function(e, value, row, index) {
-		// 				$table.bootstrapTable('remove', {
-		// 					field : 'id',
-		// 					values : [ row.id ]
-		// 				})
-		// 			}
-		}
-
-		function operateFormatter(value, row, index) {
-			return [
-					'<a rel="tooltip" title="Edit" class="table-action edit" href="ProduitEdit?edit='
-							+ row['id'] + '" title="Edit">',
-					'<i class="fa fa-edit"></i>',
-					'</a>',
-					'<a rel="tooltip" title="Remove" class="table-action remove" href="#" title="Remove" data-toggle="modal" data-target="#myModal'+ row['id'] + '">',
-					'<i class="fa fa-remove"></i>', '</a>' ].join('')
-		}
-
 		$(function() {
 			$table.bootstrapTable({
 				classes : 'table table-hover',
@@ -337,14 +296,14 @@
 				pagination : true,
 				striped : true,
 				sortable : true,
-				pageSize : 5,
-				pageList : [ 3, 5, 8, 10, 15, 20 ],
+				pageSize : 4,
+				pageList : [ 2, 4, 8, 10, 15, 20 ],
 
 				formatShowingRows : function(pageFrom, pageTo, totalRows) {
 					return 'Afficher'
 				},
 				formatRecordsPerPage : function(pageNumber) {
-					return pageNumber + ' produits'
+					return pageNumber + ' Factures'
 				}
 			})
 
@@ -377,46 +336,81 @@
 						});
 	</script>
 
-
 	<%
-		if (request.getAttribute("error") != null && request.getAttribute("errorNo") != null) {
-		Integer code = (Integer) request.getAttribute("errorNo");
+		if (request.getAttribute("userError") != null && request.getAttribute("userNo") != null) {
+		Integer code = (Integer) request.getAttribute("userNo");
 		int errorCode = code.intValue();
 
-		if (errorCode < 0) {
-			System.out.print(errorCode);
-	%>
-	<!--type = ['', 'info', 'danger', 'success', 'warning', 'rose', 'primary']; -->
-	<script type="text/javascript">
-		md.showNotification('top', 'right', 2,
-				'Un problème est survenu lors de la supression du Produit.');
-	</script>
-	<%
-		} else if (errorCode > 0) {
-	%>
-	<!--type = ['', 'info', 'danger', 'success', 'warning', 'rose', 'primary']; -->
-	<script type="text/javascript">
-		// 	alert("i am here");
-		md.showNotification('top', 'right', 3, 'Produit supprimé avec succès.');
-	</script>
-	<%
-		}
-	}
-	%>
-
-	<%
-		if (request.getAttribute("editError") != null && request.getAttribute("editNo") != null) {
-		Integer code = (Integer) request.getAttribute("editNo");
-		int errorCode = code.intValue();
-
-		if (errorCode < 0) {
+		if (errorCode == 1) {
 			// 			System.out.print(errorCode);
 	%>
 	<!--type = ['', 'info', 'danger', 'success', 'warning', 'rose', 'primary']; -->
 	<script type="text/javascript">
 		md
-				.showNotification('top', 'right', 2,
-						'Un problème est survenu lors de la sauvegarde des changements sur le produit.');
+				.showNotification('top', 'right', 3,
+						'Vos informations personnelles ont été enregistrées avec succès.');
+	</script>
+	<%
+		} else {
+	%>
+	<!--type = ['', 'info', 'danger', 'success', 'warning', 'rose', 'primary']; -->
+	<script type="text/javascript">
+		// 	alert("i am here");
+		md
+				.showNotification(
+						'top',
+						'right',
+						2,
+						'Erreur: un problème est survenu lors du changement de vos information de compte. Veuillez réessayer plutard.');
+	</script>
+	<%
+		}
+	}
+	%>
+	
+	<%
+		if (request.getAttribute("NewError") != null && request.getAttribute("NewNo") != null) {
+		Integer code = (Integer) request.getAttribute("NewNo");
+		int errorCode = code.intValue();
+
+		if (errorCode == 1) {
+			// 			System.out.print(errorCode);
+	%>
+	<!--type = ['', 'info', 'danger', 'success', 'warning', 'rose', 'primary']; -->
+	<script type="text/javascript">
+		md.showNotification('top', 'right', 3,
+				'Nouvelle facture enregistrée avec succès.');
+	</script>
+	<%
+		} else {
+	%>
+	<!--type = ['', 'info', 'danger', 'success', 'warning', 'rose', 'primary']; -->
+	<script type="text/javascript">
+		// 	alert("i am here");
+		md
+				.showNotification(
+						'top',
+						'right',
+						2,
+						'Erreur: un problème est survenu lors de l\'ajout de la facture. Veuillez réessayer plutard.');
+	</script>
+	<%
+		}
+	}
+	%>
+	
+	<%
+		if (request.getAttribute("factureError") != null && request.getAttribute("factureNo") != null) {
+		Integer code = (Integer) request.getAttribute("factureNo");
+		int errorCode = code.intValue();
+
+		if (errorCode < 0) {
+// 			System.out.print(errorCode);
+	%>
+	<!--type = ['', 'info', 'danger', 'success', 'warning', 'rose', 'primary']; -->
+	<script type="text/javascript">
+		md.showNotification('top', 'right', 2,
+						'Un problème est survenu lors de la sauvegarde des changements sur la facture.');
 	</script>
 	<%
 		} else if (errorCode > 0) {

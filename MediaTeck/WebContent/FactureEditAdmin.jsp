@@ -35,14 +35,7 @@
 
 
 <%
-	Integer value = (Integer) session.getAttribute("newFac");
-int i = value.intValue();
-
-boolean newFac = false;
-if (i == 1)
-	newFac = true;
-
-Facture facture = (Facture) session.getAttribute("FactureAdd");
+Facture facture = (Facture) session.getAttribute("FactureEdit");
 %>
 
 
@@ -58,9 +51,25 @@ Facture facture = (Facture) session.getAttribute("FactureAdd");
 			</div>
 			<div class="sidebar-wrapper">
 				<ul class="nav">
-					<li class="nav-item active"><a class="nav-link"
-						href="Dashboard"> <i class="material-icons">dashboard</i>
+					<li class="nav-item"><a class="nav-link" href="Admin"> <i
+							class="material-icons">dashboard</i>
 							<p>Accueil</p>
+					</a></li>
+					<li class="nav-item "><a class="nav-link" href="Clients">
+							<i class="material-icons">contacts</i>
+							<p>Clients</p>
+					</a></li>
+					<li class="nav-item"><a class="nav-link" href="Produits">
+							<i class="material-icons">table_chart</i>
+							<p>Produits</p>
+					</a></li>
+					<li class="nav-item active"><a class="nav-link" href="Factures">
+							<i class="material-icons">content_paste</i>
+							<p>Factures</p>
+					</a></li>
+					<li class="nav-item "><a class="nav-link" href="Users">
+							<i class="material-icons">people</i>
+							<p>Utilisateurs</p>
 					</a></li>
 					<li class="nav-item "><a class="nav-link" href="User"> <i
 							class="material-icons">person</i>
@@ -129,7 +138,7 @@ Facture facture = (Facture) session.getAttribute("FactureAdd");
 							</a>
 								<div class="dropdown-menu dropdown-menu-right"
 									aria-labelledby="navbarDropdownProfile">
-									<a class="dropdown-item" href="#User">Mon compte</a>
+									<a class="dropdown-item" href="User">Mon compte</a>
 									<!--                   <a class="dropdown-item" href="#">Settings</a> -->
 									<div class="dropdown-divider"></div>
 									<a class="dropdown-item" href="Logout">Quitter</a>
@@ -141,15 +150,15 @@ Facture facture = (Facture) session.getAttribute("FactureAdd");
 			<!-- End Navbar -->
 			<div class="content">
 				<div class="container-fluid">
-					<form method="post" action="AddFacture" class="needs-validation"
-						novalidate>
 						<div class="row">
 
 							<div class="col-md-6">
+					<form method="post" action="FactureEdit" class="needs-validation"
+						novalidate>
 								<div class="card">
 									<div class="card-header card-header-primary">
-										<h4 class="card-title">Ajouter une facture</h4>
-										<p class="card-category">Remplissez les champs ci-dessous</p>
+										<h4 class="card-title">Modifier une facture</h4>
+										<p class="card-category">Modifier les informations voulues ci-dessous</p>
 									</div>
 									<div class="card-body">
 										<input type="hidden" name="id">
@@ -158,10 +167,7 @@ Facture facture = (Facture) session.getAttribute("FactureAdd");
 												<div class="form-group">
 													<label class="bmd-label-floating">Date </label> <input
 														type="date" name="date" class="form-control"
-														value="<%if (newFac)
-	out.print(DateUtil.format(LocalDate.now()));
-else
-	out.print(facture.getDate_fac());%>"
+														value="<%=facture.getDate_fac()%>"
 														required>
 													<div class="valid-feedback">Correct.</div>
 													<div class="invalid-feedback">Veillez choisir une
@@ -179,8 +185,7 @@ else
 														for (Client client : clients) {
 														%>
 														<option value="<%=client.getId()%>"
-															<%if (!newFac && facture.getClient().getId() == client.getId())
-	out.print("selected");%>>
+															<%if (facture.getClient().getId() == client.getId()) out.print("selected");%>>
 															<%=client.getPrenom()%>
 															<%=client.getNom()%>
 														</option>
@@ -195,14 +200,21 @@ else
 											</div>
 										</div>
 										<input type="button" class="btn btn-warning pull-left"
-											onclick="javascript:location.href='Clients'" value="Retour" />
+											onclick="javascript:location.href='Factures'" value="Retour" />
+										<input type="submit" name="enregistrer"
+							class="btn btn-success pull-right"
+							style="background-color: green" value="Enregistrer"
+							<%if (facture.getLigne_factures() == null || facture.getLigne_factures().isEmpty())
+	out.print("disabled");%> />
 										<div class="clearfix"></div>
 
 									</div>
 								</div>
+							</form>
 							</div>
-
 							<div class="col-md-6">
+							<form method="post" action="FactureEdit" class="needs-validation"
+						novalidate>
 								<div class="card">
 									<div class="card-header card-header-primary">
 										<h4 class="card-title">Ajouter un produit</h4>
@@ -252,8 +264,8 @@ else
 										<div class="clearfix"></div>
 									</div>
 								</div>
+							</form>
 							</div>
-
 							<div class="col-lg-12 col-md-12">
 								<div class="card">
 									<div class="card-header card-header-primary">
@@ -269,7 +281,7 @@ else
 												<th class="text-center">Actions</th>
 											</thead>
 											<%
-												if (newFac || facture.getLigne_factures() == null || facture.getLigne_factures().isEmpty()) {
+												if (facture.getLigne_factures() == null || facture.getLigne_factures().isEmpty()) {
 												out.print(
 												"<div class='alert alert-warning alert-dismissible fadeIn first'><button type='button' class='close' data-dismiss='alert'>&times;</button><strong>Info: </strong>");
 												out.print("Aucun produit ajouté.");
@@ -285,7 +297,7 @@ else
 													<td class="text-center"><%=ligne_facture.getQte_achete()%></td>
 													<td class="text-center"><%=ligne_facture.getProduit().getPrix() * ligne_facture.getQte_achete()%></td>
 													<td class="td-actions text-center"><a
-														href="AddFacture?remove=<%=ligne_facture.getProduit().getId()%>"><button
+														href="FactureEdit?remove=<%=ligne_facture.getProduit().getId()%>"><button
 																type="button" rel="tooltip" title="Retirer"
 																class="btn btn-danger btn-link btn-sm">
 																<i class="material-icons">close</i>
@@ -297,18 +309,10 @@ else
 											}
 											%>
 										</table>
-					</form>
-					<form method="post" action="AddFacture">
-						<h3 class="pull-left">
 							Total :
 							<%=facture.getTotal()%>&nbsp;
 						</h3>
-						<input type="submit" name="enregistrer"
-							class="btn btn-success pull-right"
-							style="background-color: green" value="Enregistrer"
-							<%if (newFac || facture.getLigne_factures() == null || facture.getLigne_factures().isEmpty())
-	out.print("disabled");%> />
-					</form>
+						
 				</div>
 			</div>
 		</div>
@@ -429,6 +433,70 @@ else
 						'right',
 						2,
 						'Erreur: un problème est survenu lors de l\'ajout de la facture. Veuillez réessayer plutard.');
+	</script>
+	<%
+		}
+	}
+	%>
+	
+	<%
+		if (request.getAttribute("removeError") != null && request.getAttribute("removeNo") != null) {
+		Integer code = (Integer) request.getAttribute("removeNo");
+		int errorCode = code.intValue();
+
+		if (errorCode < 0) {
+// 			System.out.print(errorCode);
+	%>
+	<!--type = ['', 'info', 'danger', 'success', 'warning', 'rose', 'primary']; -->
+	<script type="text/javascript">
+		md.showNotification('top', 'right', 2,
+						'Un problème est survenu lors de la supression du produit de la facture.');
+	</script>
+	<%
+		}
+	}
+	%>
+	
+	
+	<%
+		if (request.getAttribute("ajouterError") != null && request.getAttribute("ajouterNo") != null) {
+		Integer code = (Integer) request.getAttribute("ajouterNo");
+		int errorCode = code.intValue();
+
+		if (errorCode < 0) {
+// 			System.out.print(errorCode);
+	%>
+	<!--type = ['', 'info', 'danger', 'success', 'warning', 'rose', 'primary']; -->
+	<script type="text/javascript">
+		md.showNotification('top', 'right', 2,
+						'Un problème est survenu lors de la sauvegarde des changements sur le client.');
+	</script>
+	<%
+		}
+		}
+	%>
+	
+	<%
+		if (request.getAttribute("factureError") != null && request.getAttribute("factureNo") != null) {
+		Integer code = (Integer) request.getAttribute("factureNo");
+		int errorCode = code.intValue();
+
+		if (errorCode < 0) {
+// 			System.out.print(errorCode);
+	%>
+	<!--type = ['', 'info', 'danger', 'success', 'warning', 'rose', 'primary']; -->
+	<script type="text/javascript">
+		md.showNotification('top', 'right', 2,
+						'Un problème est survenu lors de la sauvegarde des changements sur la facture.');
+	</script>
+	<%
+		} else if (errorCode > 0) {
+	%>
+	<!--type = ['', 'info', 'danger', 'success', 'warning', 'rose', 'primary']; -->
+	<script type="text/javascript">
+		// 	alert("i am here");
+		md.showNotification('top', 'right', 3,
+				'Modifications enregistrées avec succès.');
 	</script>
 	<%
 		}

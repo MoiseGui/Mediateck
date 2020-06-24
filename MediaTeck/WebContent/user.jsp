@@ -50,9 +50,9 @@
 							<i class="material-icons">table_chart</i>
 							<p>Produits</p>
 					</a></li>
-					<li class="nav-item "><a class="nav-link" href="Commandes">
+					<li class="nav-item "><a class="nav-link" href="Factures">
 							<i class="material-icons">content_paste</i>
-							<p>Commandes</p>
+							<p>Factures</p>
 					</a></li>
 					<li class="nav-item "><a class="nav-link" href="Users"> <i
 							class="material-icons">people</i>
@@ -61,6 +61,10 @@
 					<li class="nav-item active"><a class="nav-link" href="User">
 							<i class="material-icons">person</i>
 							<p>Mon compte</p>
+					</a></li>
+					<li class="nav-item "><a class="nav-link" href="Logout"> <i
+							class="material-icons">login</i>
+							<p>Quitter</p>
 					</a></li>
 				</ul>
 			</div>
@@ -121,7 +125,7 @@
 							</a>
 								<div class="dropdown-menu dropdown-menu-right"
 									aria-labelledby="navbarDropdownProfile">
-									<a class="dropdown-item" href="#">Mon compte</a>
+									<a class="dropdown-item" href="User">Mon compte</a>
 									<!--                   <a class="dropdown-item" href="#">Settings</a> -->
 									<div class="dropdown-divider"></div>
 									<a class="dropdown-item" href="Logout">Quitter</a>
@@ -161,7 +165,8 @@
 										%>
 										<div class="alert alert-danger alert-dismissible">
 											<button type="button" class="close" data-dismiss="alert">&times;</button>
-											<strong>Erreur : </strong> <%= message %>
+											<strong>Erreur : </strong>
+											<%=message%>
 										</div>
 										<%
 											}
@@ -235,8 +240,8 @@
 										</div>
 
 										<input type="button" class="btn btn-warning pull-left"
-											onclick="javascript:location.href='javascript:history.go(-1)'" value="Retour" />
-										<input type="submit" name="sauvegarder"
+											onclick="javascript:location.href='javascript:history.go(-1)'"
+											value="Retour" /> <input type="submit" name="sauvegarder"
 											class="btn btn-primary pull-right" value="Sauvegarder" />
 										<div class="clearfix"></div>
 									</form>
@@ -289,10 +294,10 @@
 
 	<!--  Notifications Plugin    -->
 	<script src="assets/js/plugins/bootstrap-notify.js"></script>
-	
-	
+
+
 	<script src="assets/js/plugins/perfect-scrollbar.jquery.min.js"></script>
-	
+
 
 	<!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
 	<script src="assets/js/material-dashboard.js?v=2.1.2"
@@ -322,8 +327,8 @@
 					}, false);
 				})();
 	</script>
-	
-	
+
+
 
 </body>
 

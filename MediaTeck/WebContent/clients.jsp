@@ -59,9 +59,9 @@
 							<i class="material-icons">table_chart</i>
 							<p>Produits</p>
 					</a></li>
-					<li class="nav-item "><a class="nav-link" href="Commandes">
+					<li class="nav-item "><a class="nav-link" href="Factures">
 							<i class="material-icons">content_paste</i>
-							<p>Commandes</p>
+							<p>Factures</p>
 					</a></li>
 					<li class="nav-item "><a class="nav-link" href="Users"> <i
 							class="material-icons">people</i>
@@ -70,6 +70,10 @@
 					<li class="nav-item "><a class="nav-link" href="User"> <i
 							class="material-icons">person</i>
 							<p>Mon compte</p>
+					</a></li>
+					<li class="nav-item "><a class="nav-link" href="Logout"> <i
+							class="material-icons">login</i>
+							<p>Quitter</p>
 					</a></li>
 				</ul>
 			</div>
@@ -130,7 +134,7 @@
 							</a>
 								<div class="dropdown-menu dropdown-menu-right"
 									aria-labelledby="navbarDropdownProfile">
-									<a class="dropdown-item" href="#">Mon compte</a>
+									<a class="dropdown-item" href="User">Mon compte</a>
 									<!--                   <a class="dropdown-item" href="#">Settings</a> -->
 									<div class="dropdown-divider"></div>
 									<a class="dropdown-item" href="Logout">Quitter</a>
@@ -150,9 +154,9 @@
 									<p class="display-inline card-category">Cette liste peut
 										être filtrée à l'aide des outils présents ci-dessous.</p>
 									<div class="pull-right">
-										<a href="AddClient" class="text-white"><h4><i
-											class="fa fa-plus-circle"></i> Nouveau client
-										</h4></a>
+										<a href="AddClient" class="text-white"><h4>
+												<i class="fa fa-plus-circle"></i> Nouveau client
+											</h4></a>
 									</div>
 								</div>
 								<div class="card-body">
@@ -391,11 +395,12 @@
 		int errorCode = code.intValue();
 
 		if (errorCode < 0) {
-// 			System.out.print(errorCode);
+			// 			System.out.print(errorCode);
 	%>
 	<!--type = ['', 'info', 'danger', 'success', 'warning', 'rose', 'primary']; -->
 	<script type="text/javascript">
-		md.showNotification('top', 'right', 2,
+		md
+				.showNotification('top', 'right', 2,
 						'Un problème est survenu lors de la sauvegarde des changements sur le client.');
 	</script>
 	<%

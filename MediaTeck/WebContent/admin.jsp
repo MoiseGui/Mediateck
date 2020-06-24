@@ -42,9 +42,9 @@
           </a>
         </li>
         <li class="nav-item ">
-          <a class="nav-link" href="Commandes">
+          <a class="nav-link" href="Factures">
             <i class="material-icons">content_paste</i>
-            <p>Commandes</p>
+            <p>Factures</p>
           </a>
         </li>
         <li class="nav-item ">
@@ -59,6 +59,10 @@
             <p>Mon compte</p>
           </a>
         </li>
+        <li class="nav-item "><a class="nav-link" href="Logout"> <i
+			class="material-icons">login</i>
+		<p>Quitter</p>
+		</a></li>
         </ul>
       </div>
     </div>
@@ -118,7 +122,7 @@
                   </p>
                 </a>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownProfile">
-                  <a class="dropdown-item" href="#">Mon compte</a>
+                  <a class="dropdown-item" href="User">Mon compte</a>
 <!--                   <a class="dropdown-item" href="#">Settings</a> -->
                   <div class="dropdown-divider"></div>
                   <a class="dropdown-item" href="Logout">Quitter</a>

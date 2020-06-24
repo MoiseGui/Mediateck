@@ -67,6 +67,13 @@ public class FactureEdit extends HttpServlet {
 			RequestDispatcher dispatcher = context.getRequestDispatcher("/");
 			dispatcher.forward(request, response);
 		} else {
+			String redirectTo;
+			if(user.getCategorie() == 1) {
+				redirectTo = "/Dashboard";
+			}
+			else {
+				redirectTo = "/Factures";
+			}
 
 			if (request.getParameter("edit") != null) {
 				Connection connection = (Connection) session.getAttribute("connection");
@@ -80,7 +87,7 @@ public class FactureEdit extends HttpServlet {
 				Facture facture = factureService.findById(id);
 				
 				if(facture == null) {
-					RequestDispatcher dispatcher = context.getRequestDispatcher("/Dashboard");
+					RequestDispatcher dispatcher = context.getRequestDispatcher(redirectTo);
 					dispatcher.forward(request, response);
 				}
 				else {
@@ -141,7 +148,7 @@ public class FactureEdit extends HttpServlet {
 					facture = factureService.findById(facture.getNum_fac());
 					
 					if(facture == null) {
-						RequestDispatcher dispatcher = context.getRequestDispatcher("/Dashboard");
+						RequestDispatcher dispatcher = context.getRequestDispatcher(redirectTo);
 						dispatcher.forward(request, response);
 					}
 					else {
@@ -204,6 +211,13 @@ public class FactureEdit extends HttpServlet {
 			RequestDispatcher dispatcher = context.getRequestDispatcher("/");
 			dispatcher.forward(request, response);
 		} else {
+			String redirectTo;
+			if(user.getCategorie() == 1) {
+				redirectTo = "/Dashboard";
+			}
+			else {
+				redirectTo = "/Factures";
+			}
 
 			if (request.getParameter("ajouter") != null) {
 				Facture facture = (Facture) session.getAttribute("FactureEdit");
@@ -296,7 +310,7 @@ public class FactureEdit extends HttpServlet {
 					if(result >= 0) {
 						session.removeAttribute("FactureEdit");
 						
-						RequestDispatcher dispatcher = context.getRequestDispatcher("/Dashboard");
+						RequestDispatcher dispatcher = context.getRequestDispatcher(redirectTo);
 						dispatcher.forward(request, response);
 					}
 					else {

@@ -61,6 +61,10 @@
 							class="material-icons">person</i>
 							<p>Mon compte</p>
 					</a></li>
+					<li class="nav-item "><a class="nav-link" href="Logout"> <i
+							class="material-icons">login</i>
+							<p>Quitter</p>
+					</a></li>
 				</ul>
 			</div>
 		</div>

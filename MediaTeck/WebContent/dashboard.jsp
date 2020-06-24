@@ -57,6 +57,10 @@
 							class="material-icons">person</i>
 							<p>Mon compte</p>
 					</a></li>
+					<li class="nav-item "><a class="nav-link" href="Logout"> <i
+							class="material-icons">login</i>
+							<p>Quitter</p>
+					</a></li>
 				</ul>
 			</div>
 		</div>
@@ -116,7 +120,7 @@
 							</a>
 								<div class="dropdown-menu dropdown-menu-right"
 									aria-labelledby="navbarDropdownProfile">
-									<a class="dropdown-item" href="#">Mon compte</a>
+									<a class="dropdown-item" href="User">Mon compte</a>
 									<!--                   <a class="dropdown-item" href="#">Settings</a> -->
 									<div class="dropdown-divider"></div>
 									<a class="dropdown-item" href="Logout">Quitter</a>
@@ -165,7 +169,7 @@
 													class="text-center">Date</th>
 												<th data-field="total" data-sortable="true"
 													class="text-center">Total</th>
-												<th data-field="actions" class="text-center">Modifier</th>
+												<th data-field="actions" class="">Actions</th>
 											</thead>
 											<tbody id="myTable">
 
@@ -177,10 +181,26 @@
 													<td><%=facture.getClient().getPrenom() + ' ' + facture.getClient().getNom()%></td>
 													<td><%=facture.getDate_fac()%></td>
 													<td><%=facture.getTotal()%></td>
-													<td><a rel="tooltip" title="Edit"
-														class="table-action edit"
-														href="FactureEdit?edit=<%=facture.getNum_fac()%>" title="Edit"><i
-															class="fa fa-edit"></i> </a></td>
+													<td>
+													<div class="row">
+														<a rel="tooltip" title="Modifier" class="table-action edit"
+															href="FactureEdit?edit=<%=facture.getNum_fac()%>">
+															<button type="submit" class="btn btn-white btn-round btn-just-icon">
+								                                  <i class="fa fa-edit material-icons text-primary"></i>
+								                                  <div class="ripple-container"></div>
+								                              </button>
+														</a>
+								                        <form target="_blank" method="post" action="GetFacture">
+								                           <input type="hidden" name="facture" value="<%=facture.getNum_fac()%>" >
+								                              <button name="generer" type="submit" rel="tooltip" title="Générer la facture" class="btn btn-white btn-round btn-just-icon">
+								                                  <i class="fa fa-file-pdf-o material-icons text-primary"></i>
+								                                  <div class="ripple-container"></div>
+								                              </button>
+								                         </form>
+													</div>
+													
+														
+													</td>
 												</tr>
 
 												<%
