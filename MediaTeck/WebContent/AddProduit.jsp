@@ -49,9 +49,9 @@
 							<i class="material-icons">table_chart</i>
 							<p>Produits</p>
 					</a></li>
-					<li class="nav-item "><a class="nav-link" href="Commandes">
+					<li class="nav-item "><a class="nav-link" href="Factures">
 							<i class="material-icons">content_paste</i>
-							<p>Commandes</p>
+							<p>Factures</p>
 					</a></li>
 					<li class="nav-item "><a class="nav-link" href="Users"> <i
 							class="material-icons">people</i>

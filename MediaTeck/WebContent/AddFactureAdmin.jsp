@@ -59,7 +59,7 @@ Facture facture = (Facture) session.getAttribute("FactureAdd");
 							class="material-icons">dashboard</i>
 							<p>Accueil</p>
 					</a></li>
-					<li class="nav-item active"><a class="nav-link" href="Clients">
+					<li class="nav-item "><a class="nav-link" href="Clients">
 							<i class="material-icons">contacts</i>
 							<p>Clients</p>
 					</a></li>
@@ -67,9 +67,9 @@ Facture facture = (Facture) session.getAttribute("FactureAdd");
 							<i class="material-icons">table_chart</i>
 							<p>Produits</p>
 					</a></li>
-					<li class="nav-item "><a class="nav-link" href="Commandes">
+					<li class="nav-item active"><a class="nav-link" href="Factures">
 							<i class="material-icons">content_paste</i>
-							<p>Commandes</p>
+							<p>Factures</p>
 					</a></li>
 					<li class="nav-item "><a class="nav-link" href="Users"> <i
 							class="material-icons">people</i>
@@ -403,21 +403,40 @@ else
 		int errorCode = code.intValue();
 
 		if (errorCode == 1) {
-// 			System.out.print(errorCode);
+			// 			System.out.print(errorCode);
 	%>
 	<!--type = ['', 'info', 'danger', 'success', 'warning', 'rose', 'primary']; -->
 	<script type="text/javascript">
 		md.showNotification('top', 'right', 3,
-						'Nouveau client enregistré avec succès.');
+				'Nouvelle facture enregistrée avec succès.');
 	</script>
 	<%
-		} else {
+		}
+		else if(errorCode == 20001){
+			%>
+			<!--type = ['', 'info', 'danger', 'success', 'warning', 'rose', 'primary']; -->
+			<script type="text/javascript">
+				// 	alert("i am here");
+				md
+						.showNotification(
+								'top',
+								'right',
+								2,
+								'Erreur 20001 : la quantité en stock de ce produit est insuffisante pour en acheter autant.');
+			</script>
+			<%
+		}
+		else {
 	%>
 	<!--type = ['', 'info', 'danger', 'success', 'warning', 'rose', 'primary']; -->
 	<script type="text/javascript">
 		// 	alert("i am here");
-		md.showNotification('top', 'right', 2,
-				'Erreur: un problème est survenu lors de l\'ajout du nouveau client. Veuillez réessayer plutard.');
+		md
+				.showNotification(
+						'top',
+						'right',
+						2,
+						'Erreur: un problème est survenu lors de l\'ajout de la facture. Veuillez réessayer plutard.');
 	</script>
 	<%
 		}
