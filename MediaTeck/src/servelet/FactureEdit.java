@@ -262,6 +262,11 @@ public class FactureEdit extends HttpServlet {
 							result = ligne_factureService.update(facture.getNum_fac(), produitId, qte);
 						}
 						
+						facture.calculTotal();
+						
+						FactureService factureService = new FactureService(connection);
+						facture = factureService.findById(facture.getNum_fac());
+						
 						request.setAttribute("ajouterError", true);
 						request.setAttribute("ajouterNo", result);
 					}
