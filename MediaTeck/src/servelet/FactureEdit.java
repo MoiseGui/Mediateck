@@ -252,7 +252,7 @@ public class FactureEdit extends HttpServlet {
 						int result;
 						if (test == null) {
 							Ligne_facture ligne_facture = new Ligne_facture(produit, qte);
-							facture.getLigne_factures().add(ligne_facture);
+//							facture.getLigne_factures().add(ligne_facture);
 							
 							result = ligne_factureService.add(facture.getNum_fac(), produitId, qte);
 							
@@ -262,7 +262,7 @@ public class FactureEdit extends HttpServlet {
 							result = ligne_factureService.update(facture.getNum_fac(), produitId, qte);
 						}
 						
-						facture.calculTotal();
+//						facture.calculTotal();
 						
 						FactureService factureService = new FactureService(connection);
 						facture = factureService.findById(facture.getNum_fac());
