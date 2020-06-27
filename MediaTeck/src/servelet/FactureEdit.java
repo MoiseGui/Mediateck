@@ -251,7 +251,7 @@ public class FactureEdit extends HttpServlet {
 						Ligne_factureService ligne_factureService = new Ligne_factureService(connection);
 						int result;
 						if (test == null) {
-							Ligne_facture ligne_facture = new Ligne_facture(produit, qte);
+//							Ligne_facture ligne_facture = new Ligne_facture(produit, qte);
 //							facture.getLigne_factures().add(ligne_facture);
 							
 							result = ligne_factureService.add(facture.getNum_fac(), produitId, qte);
